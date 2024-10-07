@@ -1,5 +1,4 @@
-"use client";
-import React, { useEffect } from "react";
+import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import githubIcon from "../../public/images/githubIcon.png";
@@ -102,11 +101,14 @@ export default function Project({
           }}
         >
           {/* rgba(135, 80, 156, 1) */}
-          <Link href={githubURL} className="absolute right-5 top-5">
+          <Link
+            href={githubURL}
+            className="absolute right-5 top-5 transition-all duration-500 hover:scale-110"
+          >
             <Image src={githubIcon} width={40} height={40} alt="githubIcon" />
           </Link>
           <h1
-            className="absolute text-2xl font-bold left-0 bottom-1/2 p-2"
+            className="absolute text-2xl font-bold left-5 bottom-1/2 "
             id="appName"
           >
             {name}
@@ -120,7 +122,7 @@ export default function Project({
           <div className="absolute bottom-5 flex pt-10 gap-x-2" id="techStack">
             {techStack.map((item) => {
               return (
-                <>
+                <div className="flex gap-x-2" key={item}>
                   <Image
                     src={"/images/" + item + "Icon.png"}
                     width={30}
@@ -128,16 +130,25 @@ export default function Project({
                     alt={item + "Icon"}
                   />
                   |
-                </>
+                </div>
               );
             })}
           </div>
-          <div
-            className="absolute bottom-5 right-5 p-1 bg-background rounded-lg opacity-70 transition-all duration-1000 hover:opacity-100"
-            id="demo"
-          >
-            <Link href={demoURL}>See Demo</Link>
-          </div>
+          {demoURL !== "/" ? (
+            <div
+              className="absolute bottom-5 right-5 p-1 bg-background rounded-lg opacity-70 transition-all duration-1000 hover:opacity-100"
+              id="demo"
+            >
+              <Link href={demoURL}>See Demo</Link>
+            </div>
+          ) : (
+            <div
+              className="absolute bottom-5 right-5 p-1 bg-background rounded-lg opacity-70 transition-all duration-1000 hover:opacity-100"
+              id="demo"
+            >
+              No demo yet
+            </div>
+          )}
         </div>
       </motion.div>
 

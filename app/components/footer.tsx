@@ -15,7 +15,7 @@ const fadeInAnimationVariants = {
 
 export default function Footer() {
   return (
-    <footer className="">
+    <footer className="select-none">
       <div className="relative">
         <motion.div
           variants={fadeInAnimationVariants}
@@ -35,7 +35,7 @@ export default function Footer() {
               className="hover:scale-110"
             />
           </Link>
-          <Link href="https://www.linkedin.com/in/thodoris-myridis-56093a211/">
+          <Link href="https://www.linkedin.com/in/tmyridis">
             <Image
               src={`/images/linkedInIcon.png`}
               width={20}

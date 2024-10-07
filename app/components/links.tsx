@@ -1,4 +1,3 @@
-"use client";
 import Link from "next/link";
 import Image from "next/image";
 import gitHubIcon from "../../public/images/githubIcon.png";
@@ -83,7 +82,7 @@ export default function Links() {
           </div>
         </motion.div>
       </Link>
-      <Link href="https://www.linkedin.com/in/thodoris-myridis-56093a211/">
+      <Link href="https://www.linkedin.com/in/tmyridis">
         <motion.div
           variants={fadeInAnimationVariants}
           initial="initial"

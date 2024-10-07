@@ -1,4 +1,3 @@
-"use client";
 import Typewriter from "typewriter-effect";
 import localFont from "next/font/local";
 import React from "react";

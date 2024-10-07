@@ -1,5 +1,3 @@
-"use client";
-
 import { RoughNotation } from "react-rough-notation";
 import localFont from "next/font/local";
 import { motion } from "framer-motion";

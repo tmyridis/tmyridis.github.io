@@ -1,8 +1,4 @@
-"use client";
-
 import localFont from "next/font/local";
-import SkillCard from "./skill-card";
-import React from "react";
 import { HoverEffect } from "./UI/card-hover-effect";
 import { motion } from "framer-motion";
 const bebasNeue = localFont({
@@ -21,73 +17,73 @@ export const projects = [
   {
     title: "HTML",
     description:
-      "A technology company that builds economic infrastructure for the internet.",
+      "I have a strong knowledge of HTML for organizing web applications and creating content useful and meaningful for users.",
     image: "html",
   },
   {
     title: "CSS",
     description:
-      "A streaming service that offers a wide variety of award-winning TV shows, movies, anime, documentaries, and more on thousands of internet-connected devices.",
+      "I have experience painting a web page using CSS and generating visually stunning components that enchance the overwall user experience.",
     image: "css",
   },
   {
     title: "Javascript",
     description:
-      "A multinational technology company that specializes in Internet-related services and products.",
+      "Strong fundamentals in employing Javascript to apply interactivity and functionality into web pages, resulting in better user experience and dynamic interfaces.",
     image: "javascript",
   },
   {
     title: "Typescript",
     description:
-      "A multinational technology company that specializes in Internet-related services and products.",
+      "I have worked with Typescript and it allows me to catch errors more effectively and write more maintainable and robust code",
     image: "typescript",
   },
   {
     title: "React",
     description:
-      "A technology company that focuses on building products that advance Facebook's mission of bringing the world closer together.",
+      "Very proficient using React, creating reusable components and managing whole application states using hooks, context and reducers.",
     image: "react",
   },
   {
     title: "Tailwind",
     description:
-      "A multinational technology company focusing on e-commerce, cloud computing, digital streaming, and artificial intelligence.",
+      "Tailwind is my main design tool and i prefer it rather than pure CSS because it encourages a more direct approach to styling components.",
     image: "tailwind",
   },
   {
     title: "Node",
     description:
-      "A multinational technology company that develops, manufactures, licenses, supports, and sells computer software, consumer electronics, personal computers, and related services.",
+      "I have experience using Node.js for developing powerful and scalable REST API's and connecting with the front-end",
     image: "node",
   },
   {
     title: "Express",
     description:
-      "A multinational technology company that develops, manufactures, licenses, supports, and sells computer software, consumer electronics, personal computers, and related services.",
+      "I have used Express.js for building faster and scalable REST API's.",
     image: "express",
   },
   {
     title: "PostgreSQL",
     description:
-      "A multinational technology company that develops, manufactures, licenses, supports, and sells computer software, consumer electronics, personal computers, and related services.",
+      "I have some experience working with PostgreSQL and have skills like front-end connectivity and database creation using Docker image.",
     image: "postgres",
   },
   {
     title: "Docker",
     description:
-      "A multinational technology company that develops, manufactures, licenses, supports, and sells computer software, consumer electronics, personal computers, and related services.",
+      "I just started using Docker and have some experience using and building images, containers, dockerfiles and docker-compose features.",
     image: "docker",
   },
   {
     title: "Git",
     description:
-      "A multinational technology company that develops, manufactures, licenses, supports, and sells computer software, consumer electronics, personal computers, and related services.",
+      "Proficient using Git, managing code changes and collaborating.",
     image: "git",
   },
   {
     title: "Github",
     description:
-      "A multinational technology company that develops, manufactures, licenses, supports, and sells computer software, consumer electronics, personal computers, and related services.",
+      "Using Github for issue tracking and collaboration. I like to manage my repositories efficiently and present my work to others.",
     image: "github",
   },
 ];

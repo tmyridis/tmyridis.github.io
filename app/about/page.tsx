@@ -5,7 +5,6 @@ import About from "../components/about-me";
 import Skills from "../components/skills";
 import Contact from "../components/contact";
 import Featured from "../components/featured";
-import React from "react";
 import { motion } from "framer-motion";
 
 const fadeInAnimationVariants = {

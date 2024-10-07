@@ -1,6 +1,5 @@
 "use client";
 
-import React from "react";
 import Project from "../components/project";
 import localFont from "next/font/local";
 import { motion } from "framer-motion";
@@ -51,10 +50,10 @@ export default function ProjectsPage() {
       />
       <div className="grid grid-cols-3 gap-40 pt-10">
         <Project
-          name="Onepiecedle recreation"
+          name="Onepiecedle"
           description="Recreation of the official onepiecedle.net application. Its a
                 wordle-like application where you can guess for random daily one
-                piece characters, devil fruits, wanted posters and laughs."
+                piece characters based on their characteristics, devil fruits, wanted posters and laughs."
           githubURL="https://github.com/tmyridis/onepiecedle"
           techStack={[
             "react",

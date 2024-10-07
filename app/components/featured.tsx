@@ -1,5 +1,4 @@
 import localFont from "next/font/local";
-import React from "react";
 
 const bebasNeue = localFont({
   src: "../fonts/BebasNeue-Regular.ttf",
