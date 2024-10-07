@@ -1,7 +1,6 @@
 import { redirect } from "next/navigation";
 
-export default async function Custom404() {
-  "use server";
+export default function Custom404() {
   redirect("/about");
 
   return null;
