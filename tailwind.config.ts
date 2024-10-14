@@ -12,9 +12,6 @@ const config: Config = {
         background: "var(--background)",
         foreground: "var(--foreground)",
         "link-hover-border": "#25272B",
-        "react-color": "#61dafb",
-        "node-color": "#83cd29",
-        "express-color": "#525252",
       },
       backgroundImage: {
         projectTest: "url('/images/testProject.png')",

@@ -13,14 +13,19 @@ const fadeInAnimationVariants = {
 };
 export default function Header() {
   const pathname = usePathname();
+  console.log(pathname);
   return (
     <header className="mt-10 select-none">
       <div className="flex justify-between px-2">
         <div className="text-xl font-bold">
-          <Link href="/about">
+          <Link href="/">
             <Typewriter
               options={{
-                strings: [`~/tmyridis${pathname} `],
+                strings: [
+                  pathname !== "/"
+                    ? `~/tmyridis${pathname}`
+                    : "~/tmyridis/about",
+                ],
                 autoStart: true,
                 loop: false,
                 deleteSpeed: 1000000,
@@ -38,10 +43,7 @@ export default function Header() {
           }}
           className="flex gap-x-2"
         >
-          <Link
-            href="/about"
-            className="rounded p-2 hover:bg-link-hover-border"
-          >
+          <Link href="/" className="rounded p-2 hover:bg-link-hover-border">
             About me
           </Link>
           <Link

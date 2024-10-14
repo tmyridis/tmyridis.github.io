@@ -62,7 +62,7 @@ export default function Footer() {
           </Link>
         </motion.div>
         <div className="flex justify-center text-sm font-bold pt-2">
-          <Link href={"/about"}>
+          <Link href={"/"}>
             <Typewriter
               options={{
                 strings: [`Thodoris Myridis © 2024`],
