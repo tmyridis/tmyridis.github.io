@@ -48,7 +48,7 @@ export default function ProjectsPage() {
         }}
         className="h-0.5 border-t-0 bg-white/10"
       />
-      <div className="grid grid-cols-3 gap-40 pt-10">
+      <div className="grid lg:grid-cols-3 gap-40 pt-10 xl:px-0 lg:px-10">
         <Project
           name="Onepiecedle"
           description="Recreation of the official onepiecedle.net application. Its a
@@ -63,7 +63,7 @@ export default function ProjectsPage() {
             "postgres",
             "docker",
           ]}
-          image="testProject.png"
+          image="onepiecedle.png"
           colStart={1}
           colSpan={2}
         />

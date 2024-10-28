@@ -16,11 +16,11 @@ const fadeInAnimationVariants = {
 export default function AboutMePage() {
   return (
     <>
-      <div className="flex gap-x-20">
+      <div className="md:flex gap-x-20">
         <div className="pt-10">
           <About />
         </div>
-        <div className="pt-20">
+        <div className="sm:flex sm:justify-center md:block pt-20">
           <Links />
         </div>
       </div>

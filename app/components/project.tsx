@@ -108,7 +108,7 @@ export default function Project({
             <Image src={githubIcon} width={40} height={40} alt="githubIcon" />
           </Link>
           <h1
-            className="absolute text-2xl font-bold left-5 bottom-1/2 "
+            className="absolute text-2xl font-bold left-5 lg:bottom-1/2 pt-5 lg:pt-0"
             id="appName"
           >
             {name}
@@ -143,7 +143,7 @@ export default function Project({
             </div>
           ) : (
             <div
-              className="absolute bottom-5 right-5 p-1 bg-background rounded-lg opacity-70 transition-all duration-1000 hover:opacity-100"
+              className="absolute bottom-16 right-5 p-1 sm:bottom-5 bg-background rounded-lg opacity-70 transition-all duration-1000 hover:opacity-100"
               id="demo"
             >
               No demo yet
