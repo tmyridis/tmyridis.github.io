@@ -13,7 +13,6 @@ const fadeInAnimationVariants = {
 };
 export default function Header() {
   const pathname = usePathname();
-  console.log(pathname);
   return (
     <header className="mt-10 select-none">
       <div className="flex justify-between px-2">

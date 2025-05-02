@@ -103,6 +103,8 @@ export default function Project({
           {/* rgba(135, 80, 156, 1) */}
           <Link
             href={githubURL}
+            rel="noopener noreferrer"
+            target="_blank"
             className="absolute right-5 top-5 transition-all duration-500 hover:scale-110"
           >
             <Image src={githubIcon} width={40} height={40} alt="githubIcon" />
@@ -120,7 +122,7 @@ export default function Project({
             <p>{description}</p>
           </div>
           <div className="absolute bottom-5 flex pt-10 gap-x-2" id="techStack">
-            {techStack.map((item) => {
+            {techStack.map((item, idx) => {
               return (
                 <div className="flex gap-x-2" key={item}>
                   <Image
@@ -129,7 +131,7 @@ export default function Project({
                     height={30}
                     alt={item + "Icon"}
                   />
-                  |
+                  {idx < techStack.length - 1 ? "|" : ""}
                 </div>
               );
             })}
@@ -139,7 +141,9 @@ export default function Project({
               className="absolute bottom-5 right-5 p-1 bg-background rounded-lg opacity-70 transition-all duration-1000 hover:opacity-100"
               id="demo"
             >
-              <Link href={demoURL}>See Demo</Link>
+              <Link href={demoURL} rel="noopener noreferrer" target="_blank">
+                See Demo
+              </Link>
             </div>
           ) : (
             <div

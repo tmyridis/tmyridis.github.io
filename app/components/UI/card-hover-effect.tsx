@@ -95,11 +95,11 @@ export const HoverEffect = ({
                     animationDelay={2000}
                     color="#808080"
                   >
-                    {item?.title.split("").map((letter) => {
+                    {item?.title.split("").map((letter, idx) => {
                       return (
                         <span
                           className="inline-block hover:animate-gelatine"
-                          key="letter"
+                          key={idx}
                         >
                           {letter}
                         </span>

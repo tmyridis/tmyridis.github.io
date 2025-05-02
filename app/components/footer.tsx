@@ -26,7 +26,11 @@ export default function Footer() {
           }}
           className="flex gap-x-5 absolute left-0 pb-1"
         >
-          <Link href="https://github.com/tmyridis">
+          <Link
+            href="https://github.com/tmyridis"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
             <Image
               src={`/images/githubIcon.png`}
               width={20}
@@ -35,7 +39,11 @@ export default function Footer() {
               className="hover:scale-110"
             />
           </Link>
-          <Link href="https://www.linkedin.com/in/tmyridis">
+          <Link
+            href="https://www.linkedin.com/in/tmyridis"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
             <Image
               src={`/images/linkedInIcon.png`}
               width={20}

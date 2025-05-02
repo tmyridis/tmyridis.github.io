@@ -3,6 +3,8 @@
 import Project from "../components/project";
 import localFont from "next/font/local";
 import { motion } from "framer-motion";
+import { promises as fs } from "fs";
+import projects from "./projects.json";
 
 const bebasNeue = localFont({
   src: "../fonts/BebasNeue-Regular.ttf",
@@ -48,8 +50,22 @@ export default function ProjectsPage() {
         }}
         className="h-0.5 border-t-0 bg-white/10"
       />
-      <div className="grid lg:grid-cols-3 gap-40 pt-10 xl:px-0 lg:px-10">
-        <Project
+      <div className="grid lg:grid-cols-3 gap-40 pt-10 xl:px-0 lg:px-10 pb-10">
+        {projects.projects.map((project) => {
+          return (
+            <Project
+              key={project.name}
+              name={project.name}
+              description={project.description}
+              githubURL={project.githubURL}
+              techStack={project.techStack}
+              image={project.image}
+              colStart={project.colStart}
+              colSpan={project.colSpan}
+            />
+          );
+        })}
+        {/* <Project
           name="Onepiecedle"
           description="Recreation of the official onepiecedle.net application. Its a
                 wordle-like application where you can guess for random daily one
@@ -67,6 +83,18 @@ export default function ProjectsPage() {
           colStart={1}
           colSpan={2}
         />
+        <Project
+          name="Smart-Notes"
+          description="Smart Notes is a powerful, all-in-one web application designed to help you stay 
+          organized and productive. Whether you're jotting down quick ideas, managing your daily tasks, 
+          or planning events on your calendar, Smart Notes has you covered."
+          githubURL="https://github.com/tmyridis/smart-notes"
+          techStack={["react", "tailwind", "shadcn", "firebase"]}
+          image="smartnotes.png"
+          gradient={["from-sky-300", "via-teal-300", "to-pink-300"]}
+          colStart={2}
+          colSpan={2}
+        /> */}
         {/* <Project colStart={2} gradient={["sky-300", "teal-300", "pink-300"]} /> */}
         {/* <div className="col-span-2 relative group">
           <div className="absolute -inset-2 rounded-lg bg-gradient-to-r from-purple-700 via-fuchsia-700 to-pink-700 opacity-40 blur transition ease-in-out duration-1000 group-hover:opacity-70 group-hover:duration-200"></div>

@@ -54,7 +54,11 @@ export default function Links() {
           </div>
         </motion.div>
       </Link>
-      <Link href="https://github.com/tmyridis">
+      <Link
+        href="https://github.com/tmyridis"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
         <motion.div
           variants={fadeInAnimationVariants}
           initial="initial"
@@ -82,7 +86,11 @@ export default function Links() {
           </div>
         </motion.div>
       </Link>
-      <Link href="https://www.linkedin.com/in/tmyridis">
+      <Link
+        href="https://www.linkedin.com/in/tmyridis"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
         <motion.div
           variants={fadeInAnimationVariants}
           initial="initial"

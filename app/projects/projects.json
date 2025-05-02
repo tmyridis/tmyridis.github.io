@@ -1,0 +1,29 @@
+{
+  "projects": [
+    {
+      "name": "Onepiecedle",
+      "description": "Recreation of the official onepiecedle.net application. Its a wordle-like application where you can guess for random daily one piece characters based on their characteristics, devil fruits, wanted posters and laughs.",
+      "githubURL": "https://github.com/tmyridis/onepiecedle",
+      "techStack": [
+        "react",
+        "tailwind",
+        "node",
+        "express",
+        "postgres",
+        "docker"
+      ],
+      "image": "onepiecedle.png",
+      "colStart": 1,
+      "colSpan": 2
+    },
+    {
+      "name": "Smart-Notes",
+      "description": "Smart Notes is a powerful, all-in-one web application designed to help you stay organized and productive. Whether you're jotting down quick ideas, managing your daily tasks, or planning events on your calendar, Smart Notes has you covered.",
+      "githubURL": "https://github.com/tmyridis/smart-notes",
+      "techStack": ["react", "tailwind", "shadcn", "firebase"],
+      "image": "smartnotes.png",
+      "colStart": 2,
+      "colSpan": 2
+    }
+  ]
+}
