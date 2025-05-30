@@ -23,7 +23,26 @@
       "techStack": ["react", "tailwind", "shadcn", "firebase"],
       "image": "smartnotes.png",
       "colStart": 2,
-      "colSpan": 2
+      "colSpan": 2,
+      "gradient": ["from-purple-700", "via-indigo-700", "to-blue-700"]
+    },
+    {
+      "name": "chSMaRt",
+      "description": "chSMaRt is a modern, real-time chat application built to provide fast, secure, and customizable messaging between users. It supports user authentication via email/password, GitHub, and Google, and includes features like image uploads, unique chat themes per user, and live updates.",
+      "githubURL": "https://github.com/tmyridis/chSMaRt",
+      "techStack": [
+        "react",
+        "tailwind",
+        "shadcn",
+        "node",
+        "express",
+        "socketIo",
+        "supabase"
+      ],
+      "image": "chSMaRt.png",
+      "colStart": 1,
+      "colSpan": 2,
+      "gradient": ["from-teal-700", "via-purple-700", "to-fuchsia-700"]
     }
   ]
 }

@@ -50,7 +50,7 @@ export default function ProjectsPage() {
         }}
         className="h-0.5 border-t-0 bg-white/10"
       />
-      <div className="grid lg:grid-cols-3 gap-40 pt-10 xl:px-0 lg:px-10 pb-10">
+      <div className="flex flex-col sm:grid lg:grid-cols-3 gap-40 pt-10 xl:px-0 lg:px-10 pb-20">
         {projects.projects.map((project) => {
           return (
             <Project
@@ -62,6 +62,7 @@ export default function ProjectsPage() {
               image={project.image}
               colStart={project.colStart}
               colSpan={project.colSpan}
+              gradient={project?.gradient}
             />
           );
         })}

@@ -35,7 +35,7 @@ export const projects = [
   {
     title: "Typescript",
     description:
-      "I have worked with Typescript and it allows me to catch errors more effectively and write more maintainable and robust code",
+      "I have worked with Typescript and it allows me to catch errors more effectively and write more maintainable and robust code.",
     image: "typescript",
   },
   {
@@ -53,13 +53,13 @@ export const projects = [
   {
     title: "Node",
     description:
-      "I have experience using Node.js for developing powerful and scalable REST API's and connecting with the front-end",
+      "I have experience using Node.js for developing powerful and scalable REST API's and connecting with the front-end.",
     image: "node",
   },
   {
     title: "Express",
     description:
-      "I have used Express.js for building faster and scalable REST API's.",
+      "I have used Express.js for building fast and scalable REST API's.",
     image: "express",
   },
   {

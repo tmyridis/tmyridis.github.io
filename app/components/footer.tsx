@@ -69,11 +69,11 @@ export default function Footer() {
             </svg>
           </Link>
         </motion.div>
-        <div className="flex justify-center text-sm font-bold pt-2">
+        <div className="flex justify-center text-sm font-bold pt-2 pl-10">
           <Link href={"/"}>
             <Typewriter
               options={{
-                strings: [`Thodoris Myridis © 2024`],
+                strings: [`tmyridis © 2025`],
                 autoStart: true,
                 loop: false,
                 deleteSpeed: 1000000,
