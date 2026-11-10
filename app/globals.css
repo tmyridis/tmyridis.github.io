@@ -1,89 +1,64 @@
-@import 'tailwindcss';
+@import "tailwindcss";
+
+@theme inline {
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, monospace;
+}
 
 @theme {
-  --breakpoint-*: initial;
-  --breakpoint-sm: 480px;
-  --breakpoint-md: 768px;
-  --breakpoint-lg: 1024px;
-  --breakpoint-xl: 1280px;
-  --breakpoint-2xl: 1536px;
+  --color-bg: #06050c;
+  --color-panel: #0e0b1e;
+  --color-line: #2c2b45;
+  --color-ink: #ecebf5;
+  --color-muted: #a3a1b8;
+  --color-violet: #a78bfa;
+  --color-deep: #7c3aed;
+  --color-pink: #ff7ad9;
 
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-link-hover-border: #25272b;
+  --animate-blink: blink 1s steps(1) infinite;
+  --animate-pulse-glow: pulse-glow 3s ease-in-out infinite;
+  --animate-ping-dot: ping-dot 2s ease-in-out infinite;
 
-  --background-image-projectTest: url('/images/testProject.png');
-
-  --animate-gelatine: gelatine 2s ease-in-out;
-  --animate-border-spin: border-spin 7s linear infinite;
-  --animate-flip: flip 6s infinite steps(2, end);
-  --animate-rotate: rotate 3s linear infinite both;
-
-  @keyframes gelatine {
-    from,
-    to {
-      transform: scale(1, 1);
+  @keyframes blink {
+    50% {
+      opacity: 0;
     }
-    25% {
-      transform: scale(0.9, 1.1);
+  }
+  @keyframes pulse-glow {
+    0%,
+    100% {
+      text-shadow: 0 0 18px rgb(167 139 250 / 0.5);
     }
     50% {
-      transform: scale(1.1, 0.9);
-    }
-    75% {
-      transform: scale(0.95, 1.05);
+      text-shadow: 0 0 48px rgb(167 139 250 / 1);
     }
   }
-  @keyframes flip {
-    to {
-      transform: rotate(360deg);
+  @keyframes ping-dot {
+    0%,
+    100% {
+      box-shadow: 0 0 0 0 rgb(255 122 217 / 0.7);
     }
-  }
-  @keyframes rotate {
-    to {
-      transform: rotate(90deg);
+    50% {
+      box-shadow: 0 0 0 12px rgb(255 122 217 / 0);
     }
   }
 }
 
-/*
-  The default border color has changed to `currentcolor` in Tailwind CSS v4,
-  so we've added these compatibility styles to make sure everything still
-  looks the same as it did with Tailwind CSS v3.
-
-  If we ever want to remove these styles, we need to add an explicit border
-  color utility to any element that depends on these defaults.
-*/
-@layer base {
-  *,
-  ::after,
-  ::before,
-  ::backdrop,
-  ::file-selector-button {
-    border-color: var(--color-gray-200, currentcolor);
-  }
+html {
+  scroll-behavior: smooth;
 }
 
-@utility text-balance {
-  text-wrap: balance;
+body {
+  background: var(--color-bg);
+  color: var(--color-ink);
 }
 
-@layer utilities {
-  :root {
-    --background: #ffffff;
-    --foreground: #171717;
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
   }
-
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --background: #0a0a0a;
-      --foreground: #ededed;
-    }
-  }
-
-  body {
-    color: var(--foreground);
-    background: var(--background);
-    font-family: Arial, Helvetica, sans-serif;
+  .animate-blink,
+  .animate-pulse-glow,
+  .animate-ping-dot {
+    animation: none;
   }
 }

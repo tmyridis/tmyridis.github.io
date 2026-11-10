@@ -1,0 +1,38 @@
+[
+  {
+    "name": "Onepiecedle",
+    "description": "Recreation of the official onepiecedle.net application. Its a wordle-like application where you can guess for random daily one piece characters based on their characteristics, devil fruits, wanted posters and laughs.",
+    "githubURL": "https://github.com/tmyridis/onepiecedle",
+    "techStack": [
+      "React",
+      "Tailwind",
+      "Node",
+      "Express",
+      "PostgreSQL",
+      "Docker"
+    ],
+    "image": "onepiecedle.png"
+  },
+  {
+    "name": "Smart-Notes",
+    "description": "Smart Notes is a powerful, all-in-one web application designed to help you stay organized and productive. Whether you're jotting down quick ideas, managing your daily tasks, or planning events on your calendar, Smart Notes has you covered.",
+    "githubURL": "https://github.com/tmyridis/smart-notes",
+    "techStack": ["React", "Tailwind", "shadcn", "Firebase"],
+    "image": "smartnotes.png"
+  },
+  {
+    "name": "chSMaRt",
+    "description": "chSMaRt is a modern, real-time chat application built to provide fast, secure, and customizable messaging between users. It supports user authentication via email/password, GitHub, and Google, and includes features like image uploads, unique chat themes per user, and live updates.",
+    "githubURL": "https://github.com/tmyridis/chSMaRt",
+    "techStack": [
+      "React",
+      "Tailwind",
+      "shadcn",
+      "Node",
+      "Express",
+      "Socket.IO",
+      "Supabase"
+    ],
+    "image": "chSMaRt.png"
+  }
+]
