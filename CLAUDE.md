@@ -24,6 +24,7 @@ The site is a single page with a terminal look (monospace type, purple on near-b
 - `nav.tsx`: fixed shell-prompt nav with a scroll progress bar
 - `hero.tsx`: headline over `code-rain.tsx` (falling code drawn on a 2D canvas) next to `terminals.tsx` (three terminal windows at different depths using CSS 3D; the stack tilts with the pointer)
 - `stack.tsx`: skills as a `neofetch`-style readout
+- `career.tsx`: jobs as a `git log --graph` timeline, rendered from `app/data/career.json` (`end: null` means the current job)
 - `work.tsx`: projects as a `git log --graph` timeline, rendered from `app/data/projects.json`
 - `contact.tsx`: contact links and footer
 - `cursor.tsx`: the blinking block cursor
