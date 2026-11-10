@@ -61,7 +61,7 @@ export default function SkillCard({
         className={`col-start-${colStart} col-span-${colSpan} relative group w-auto select-none mt-6`}
       >
         <div
-          className={`absolute -inset-2 rounded-lg bg-gradient-to-r ${from} ${via} ${to} opacity-40 blur transition ease-in-out duration-1000 group-hover:opacity-70 group-hover:duration-200`}
+          className={`absolute -inset-2 rounded-lg bg-linear-to-r ${from} ${via} ${to} opacity-40 blur-sm transition ease-in-out duration-1000 group-hover:opacity-70 group-hover:duration-200`}
         ></div>
         <div
           ref={divRef}
@@ -73,7 +73,7 @@ export default function SkillCard({
           className="relative rounded-lg bg-background group grid overflow-hidden"
         >
           <span>
-            <span className="spark mask-gradient animate-flip before:animate-rotate absolute inset-0 h-[100%] w-[100%] overflow-hidden [mask:linear-gradient(white,_transparent_50%)] before:absolute before:aspect-square before:w-[200%] before:rotate-[-90deg] before:bg-[conic-gradient(from_0deg,transparent_0_340deg,#a21caf_360deg)] before:content-[''] before:[inset:0_auto_auto_50%] before:[translate:-50%_-15%]" />
+            <span className="spark mask-gradient animate-flip before:animate-rotate absolute inset-0 h-full w-full overflow-hidden [mask:linear-gradient(white,transparent_50%)] before:absolute before:aspect-square before:w-[200%] before:-rotate-90 before:bg-[conic-gradient(from_0deg,transparent_0_340deg,#a21caf_360deg)] before:content-[''] before:inset-[0_auto_auto_50%] before:[translate:-50%_-15%]" />
           </span>
           <span className="backdrop absolute inset-[3px] bg-background" />
           <div

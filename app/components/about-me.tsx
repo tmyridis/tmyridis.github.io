@@ -24,7 +24,7 @@ export default function About() {
         viewport={{
           once: true,
         }}
-        className={`text-7xl pl-10 font-bold ${bebasNeue.className} select-none`}
+        className={`relative text-7xl pl-10 font-bold ${bebasNeue.className} select-none`}
       >
         <span className="inline-block hover:animate-gelatine">H</span>
         <span className="inline-block hover:animate-gelatine">I</span>
@@ -77,7 +77,7 @@ export default function About() {
         viewport={{
           once: true,
         }}
-        className={`pt-10 text-4xl font-bold ${bebasNeue.className} select-none`}
+        className={`relative pt-10 text-4xl font-bold ${bebasNeue.className} select-none`}
       >
         <span className="inline-block hover:animate-gelatine">U</span>
         <span className="inline-block hover:animate-gelatine">S</span>

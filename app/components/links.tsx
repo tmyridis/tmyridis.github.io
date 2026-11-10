@@ -28,8 +28,8 @@ export default function Links() {
           }}
           className="relative group"
         >
-          <div className="absolute -inset-2 rounded-lg bg-gradient-to-r from-purple-700 via-fuchsia-700 to-pink-700 opacity-40 blur transition ease-in-out duration-1000 group-hover:opacity-70 group-hover:duration-200"></div>
-          <div className="relative flex h-20 items-center justify-between px-5 rounded-lg bg-background bg-[linear-gradient(45deg,transparent_25%,rgba(68,68,68,.2)_50%,transparent_75%,transparent_100%)] bg-[length:250%_250%,100%_100%] bg-[position:-100%_0,0_0] bg-no-repeat transition-[background-position_0s_ease] hover:bg-[position:200%_0,0_0] hover:duration-[1500ms]">
+          <div className="absolute -inset-2 rounded-lg bg-linear-to-r from-purple-700 via-fuchsia-700 to-pink-700 opacity-40 blur-sm transition ease-in-out duration-1000 group-hover:opacity-70 group-hover:duration-200"></div>
+          <div className="relative flex h-20 items-center justify-between px-5 rounded-lg bg-background bg-[linear-gradient(45deg,transparent_25%,rgba(68,68,68,.2)_50%,transparent_75%,transparent_100%)] bg-size-[250%_250%,100%_100%] bg-position-[-100%_0,0_0] bg-no-repeat transition-[background-position_0s_ease] hover:bg-position-[200%_0,0_0] hover:duration-1500">
             <div>What I build</div>
             <div className="absolute top-7 left-1/2">|</div>
             <div className="flex gap-x-2">
@@ -68,8 +68,8 @@ export default function Links() {
           }}
           className="relative group"
         >
-          <div className="absolute -inset-2 rounded-lg bg-gradient-to-r from-sky-300 via-teal-300 to-pink-300 opacity-40 blur transition ease-in-out duration-1000 group-hover:opacity-70 group-hover:duration-200"></div>
-          <div className="relative flex h-20 items-center justify-between px-5 rounded-lg bg-background bg-[linear-gradient(45deg,transparent_25%,rgba(68,68,68,.2)_50%,transparent_75%,transparent_100%)] bg-[length:250%_250%,100%_100%] bg-[position:-100%_0,0_0] bg-no-repeat transition-[background-position_0s_ease] hover:bg-[position:200%_0,0_0] hover:duration-[1500ms]">
+          <div className="absolute -inset-2 rounded-lg bg-linear-to-r from-sky-300 via-teal-300 to-pink-300 opacity-40 blur-sm transition ease-in-out duration-1000 group-hover:opacity-70 group-hover:duration-200"></div>
+          <div className="relative flex h-20 items-center justify-between px-5 rounded-lg bg-background bg-[linear-gradient(45deg,transparent_25%,rgba(68,68,68,.2)_50%,transparent_75%,transparent_100%)] bg-size-[250%_250%,100%_100%] bg-position-[-100%_0,0_0] bg-no-repeat transition-[background-position_0s_ease] hover:bg-position-[200%_0,0_0] hover:duration-1500">
             <div>Code</div>
             <div className="absolute top-7 left-1/2">|</div>
             <div className="flex gap-x-5">
@@ -100,8 +100,8 @@ export default function Links() {
           }}
           className="relative group"
         >
-          <div className="absolute -inset-2 rounded-lg bg-gradient-to-r from-teal-700 via-purple-700 to-fuchsia-700 opacity-40 blur transition ease-in-out duration-1000 group-hover:opacity-70 group-hover:duration-200"></div>
-          <div className="relative flex h-20 items-center justify-between px-5 rounded-lg bg-background bg-[linear-gradient(45deg,transparent_25%,rgba(68,68,68,.2)_50%,transparent_75%,transparent_100%)] bg-[length:250%_250%,100%_100%] bg-[position:-100%_0,0_0] bg-no-repeat transition-[background-position_0s_ease] hover:bg-[position:200%_0,0_0] hover:duration-[1500ms]">
+          <div className="absolute -inset-2 rounded-lg bg-linear-to-r from-teal-700 via-purple-700 to-fuchsia-700 opacity-40 blur-sm transition ease-in-out duration-1000 group-hover:opacity-70 group-hover:duration-200"></div>
+          <div className="relative flex h-20 items-center justify-between px-5 rounded-lg bg-background bg-[linear-gradient(45deg,transparent_25%,rgba(68,68,68,.2)_50%,transparent_75%,transparent_100%)] bg-size-[250%_250%,100%_100%] bg-position-[-100%_0,0_0] bg-no-repeat transition-[background-position_0s_ease] hover:bg-position-[200%_0,0_0] hover:duration-1500">
             <div>Contact</div>
             <div className="absolute top-7 left-1/2">|</div>
             <div className="flex gap-x-3">

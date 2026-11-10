@@ -5,7 +5,7 @@ import githubIcon from "../../public/images/githubIcon.png";
 import { motion, useAnimate } from "framer-motion";
 function throttle<T extends (...args: any[]) => any>(
   func: T,
-  delay: number
+  delay: number,
 ): (...args: Parameters<T>) => void {
   let lastCall = 0;
   return (...args: Parameters<T>) => {
@@ -52,20 +52,21 @@ export default function Project({
   const [scope, animate] = useAnimate();
   const [rotate, setRotate] = React.useState({ x: 0, y: 0 });
 
-  const onMouseMove = React.useCallback(
-    throttle((e: React.MouseEvent<HTMLDivElement>) => {
-      const card = e.currentTarget;
-      const box = card.getBoundingClientRect();
-      const x = e.clientX - box.left;
-      const y = e.clientY - box.top;
-      const centerX = box.width / 2;
-      const centerY = box.height / 2;
-      const rotateX = (y - centerY) / 7;
-      const rotateY = (centerX - x) / 7;
+  const onMouseMove = React.useMemo(
+    () =>
+      throttle((e: React.MouseEvent<HTMLDivElement>) => {
+        const card = e.currentTarget;
+        const box = card.getBoundingClientRect();
+        const x = e.clientX - box.left;
+        const y = e.clientY - box.top;
+        const centerX = box.width / 2;
+        const centerY = box.height / 2;
+        const rotateX = (y - centerY) / 7;
+        const rotateY = (centerX - x) / 7;
 
-      setRotate({ x: rotateX, y: rotateY });
-    }, 100),
-    []
+        setRotate({ x: rotateX, y: rotateY });
+      }, 100),
+    [],
   );
 
   const onMouseLeave = () => {
@@ -92,7 +93,7 @@ export default function Project({
         }}
       >
         <div
-          className={`absolute -inset-3 rounded-lg bg-gradient-to-r ${gradient[0]} ${gradient[1]} ${gradient[2]} opacity-40 blur transition ease-in-out duration-1000 group-hover:opacity-70 group-hover:duration-200`}
+          className={`absolute -inset-3 rounded-lg bg-linear-to-r ${gradient[0]} ${gradient[1]} ${gradient[2]} opacity-40 blur-sm transition ease-in-out duration-1000 group-hover:opacity-70 group-hover:duration-200`}
         ></div>
         <div
           className="relative h-96 items-center justify-between px-5 rounded-lg bg-cover bg-no-repeat bg-background"
@@ -158,9 +159,9 @@ export default function Project({
 
       {/* <CardContainer className="relative group w-full">
         <div
-          className={`absolute -inset-3 rounded-lg bg-gradient-to-r ${gradient[0]} ${gradient[1]} ${gradient[2]} opacity-40 blur transition ease-in-out duration-1000 group-hover:opacity-70 group-hover:duration-200`}
+          className={`absolute -inset-3 rounded-lg bg-linear-to-r ${gradient[0]} ${gradient[1]} ${gradient[2]} opacity-40 blur-sm transition ease-in-out duration-1000 group-hover:opacity-70 group-hover:duration-200`}
         ></div>
-        <CardBody className="relative bg-black border-white/[0.2] w-auto sm:w-[30rem] h-auto rounded-xl p-6 border">
+        <CardBody className="relative bg-black border-white/20 w-auto sm:w-120 h-auto rounded-xl p-6 border">
           <CardItem
             translateZ="50"
             className="text-xl font-bold text-neutral-600 dark:text-white"

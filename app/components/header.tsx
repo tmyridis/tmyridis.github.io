@@ -42,12 +42,12 @@ export default function Header() {
           }}
           className="flex gap-x-2"
         >
-          <Link href="/" className="rounded p-2 hover:bg-link-hover-border">
+          <Link href="/" className="rounded-sm p-2 hover:bg-link-hover-border">
             About me
           </Link>
           <Link
             href="/projects"
-            className="rounded p-2 hover:bg-link-hover-border"
+            className="rounded-sm p-2 hover:bg-link-hover-border"
           >
             Projects
           </Link>

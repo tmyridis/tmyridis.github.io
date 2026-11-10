@@ -98,15 +98,15 @@ export default function ProjectsPage() {
         /> */}
         {/* <Project colStart={2} gradient={["sky-300", "teal-300", "pink-300"]} /> */}
         {/* <div className="col-span-2 relative group">
-          <div className="absolute -inset-2 rounded-lg bg-gradient-to-r from-purple-700 via-fuchsia-700 to-pink-700 opacity-40 blur transition ease-in-out duration-1000 group-hover:opacity-70 group-hover:duration-200"></div>
-          <div className="relative h-40 items-center justify-between px-5 rounded-lg bg-background bg-[linear-gradient(45deg,transparent_25%,rgba(68,68,68,.2)_50%,transparent_75%,transparent_100%)] bg-[length:250%_250%,100%_100%] bg-[position:-100%_0,0_0] bg-no-repeat transition-[background-position_0s_ease] hover:bg-[position:200%_0,0_0] hover:duration-[1500ms]">
+          <div className="absolute -inset-2 rounded-lg bg-linear-to-r from-purple-700 via-fuchsia-700 to-pink-700 opacity-40 blur-sm transition ease-in-out duration-1000 group-hover:opacity-70 group-hover:duration-200"></div>
+          <div className="relative h-40 items-center justify-between px-5 rounded-lg bg-background bg-[linear-gradient(45deg,transparent_25%,rgba(68,68,68,.2)_50%,transparent_75%,transparent_100%)] bg-size-[250%_250%,100%_100%] bg-position-[-100%_0,0_0] bg-no-repeat transition-[background-position_0s_ease] hover:bg-position-[200%_0,0_0] hover:duration-1500">
             <h1 className="p-5 text-2xl font-bold">Project Template</h1>
             <p>Project Description Template</p>
           </div>
         </div>
         <div className="col-start-2 col-span-2 relative group">
-          <div className="absolute -inset-2 rounded-lg bg-gradient-to-r from-purple-700 via-fuchsia-700 to-pink-700 opacity-40 blur transition ease-in-out duration-1000 group-hover:opacity-70 group-hover:duration-200"></div>
-          <div className="relative h-40 items-center justify-between px-5 rounded-lg bg-background bg-[linear-gradient(45deg,transparent_25%,rgba(68,68,68,.2)_50%,transparent_75%,transparent_100%)] bg-[length:250%_250%,100%_100%] bg-[position:-100%_0,0_0] bg-no-repeat transition-[background-position_0s_ease] hover:bg-[position:200%_0,0_0] hover:duration-[1500ms]">
+          <div className="absolute -inset-2 rounded-lg bg-linear-to-r from-purple-700 via-fuchsia-700 to-pink-700 opacity-40 blur-sm transition ease-in-out duration-1000 group-hover:opacity-70 group-hover:duration-200"></div>
+          <div className="relative h-40 items-center justify-between px-5 rounded-lg bg-background bg-[linear-gradient(45deg,transparent_25%,rgba(68,68,68,.2)_50%,transparent_75%,transparent_100%)] bg-size-[250%_250%,100%_100%] bg-position-[-100%_0,0_0] bg-no-repeat transition-[background-position_0s_ease] hover:bg-position-[200%_0,0_0] hover:duration-1500">
             <h1 className="p-5 text-2xl font-bold">Project Template</h1>
             <p>Project Description Template</p>
           </div>

@@ -55,7 +55,7 @@ export const HoverEffect = ({
         >
           {/* Background gradient */}
           <div
-            className={`absolute -inset-2 rounded-lg opacity-0 blur transition ease-in-out duration-1000 group-hover:opacity-70 group-hover:duration-200`}
+            className={`absolute -inset-2 rounded-lg opacity-0 blur-sm transition ease-in-out duration-1000 group-hover:opacity-70 group-hover:duration-200`}
           ></div>
           <AnimatePresence>
             {hoveredIndex === idx && (
@@ -133,7 +133,7 @@ export const Card = ({
         once: true,
       }}
       className={cn(
-        "rounded-2xl h-full w-full p-4 overflow-hidden bg-transparent border border-transparent dark:border-white/[0.2] group-hover:border-slate-700 relative z-20",
+        "rounded-2xl h-full w-full p-4 overflow-hidden bg-transparent border border-transparent dark:border-white/20 group-hover:border-slate-700 relative z-20",
         className
       )}
     >
