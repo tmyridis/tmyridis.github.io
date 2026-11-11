@@ -33,9 +33,9 @@ export default function Hero() {
           >
             I usually
             <br />
-            turn code
+            turn coffee
             <br />
-            <span className="text-white">into coffee.</span>
+            <span className="text-white">into code.</span>
           </motion.h1>
           <motion.p {...rise(0.25)} className="mt-6 max-w-lg text-muted">
             I&apos;m Teo. Intuitive interfaces, robust services.
