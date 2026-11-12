@@ -1,25 +1,15 @@
-import React from "react";
-import { WavyBackground } from "./components/UI/wavy-background";
 import type { Metadata } from "next";
-import localFont from "next/font/local";
+import { JetBrains_Mono } from "next/font/google";
 import "./globals.css";
-import Header from "./components/header";
-import Footer from "./components/footer";
 
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
-});
-const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
-  weight: "100 900",
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-jetbrains-mono",
 });
 
 export const metadata: Metadata = {
   title: "tmyridis",
-  description: "tmyridis portfolio",
+  description: "Teo, software engineer. Frontend and backend portfolio.",
 };
 
 export default function RootLayout({
@@ -30,16 +20,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${jetbrainsMono.variable} overflow-x-hidden font-mono text-[15px] antialiased`}
       >
-        <WavyBackground
-          backgroundFill="#0a0a0a"
-          className="flex flex-col min-h-screen mx-auto max-w-2xl sm:max-w-2xl md:max-w-3xl px-4 sm:px-6 lg:max-w-5xl xl:px-0 font-[family-name:var(--font-geist-sans)]"
-        >
-          <Header />
-          <main className="mb-auto">{children}</main>
-          <Footer />
-        </WavyBackground>
+        {children}
       </body>
     </html>
   );

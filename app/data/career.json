@@ -1,0 +1,31 @@
+[
+  {
+    "company": "BetAdvanced",
+    "role": "Full Stack Engineer",
+    "start": "09/2025",
+    "end": null,
+    "highlights": [
+      "Migrated an existing API project from JavaScript to TypeScript.",
+      "Improved API performance.",
+      "Now building a full-stack in-house tool that operators use to adjust bets and limits."
+    ],
+    "techStack": [
+      "React",
+      "TanStack",
+      "Fastify",
+      "Mantine",
+      "TypeScript",
+      "PostgreSQL"
+    ]
+  },
+  {
+    "company": "Aristotle University IT Center",
+    "role": "Frontend Engineer",
+    "start": "09/2022",
+    "end": "09/2024",
+    "highlights": [
+      "Worked on university’s Erasmus applications, developing web applications for educational purposes."
+    ],
+    "techStack": ["React", "Bootstrap"]
+  }
+]
