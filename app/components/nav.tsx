@@ -12,11 +12,6 @@ const links = [
 // Which link lights up for each section on the page.
 const linkOf: Record<string, string> = { what: "about" };
 
-const socials = [
-  { label: "github", href: "https://github.com/tmyridis" },
-  { label: "linkedin", href: "https://www.linkedin.com/in/tmyridis" },
-];
-
 export default function Nav() {
   const [active, setActive] = useState("");
 
@@ -66,28 +61,6 @@ export default function Nav() {
         aria-hidden
         className="pointer-events-none fixed inset-x-0 top-0 z-40 h-24 bg-linear-to-t from-transparent to-bg to-60%"
       />
-      <div
-        aria-hidden
-        className="glow-blob fixed top-0 left-0 z-10 -translate-x-[95%] -translate-y-3/4"
-      />
-      <div
-        aria-hidden
-        className="glow-blob fixed top-1/2 right-0 z-10 hidden translate-x-[calc(100%-2px)] -translate-y-1/2 sm:block"
-      />
-
-      <div className="site-fade fixed bottom-6 left-[3%] z-50 hidden flex-col items-center gap-5 text-sm min-[900px]:flex">
-        {socials.map((social) => (
-          <a
-            key={social.href}
-            href={social.href}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="rotate-180 transition-colors [writing-mode:vertical-rl] hover:text-violet"
-          >
-            {social.label}
-          </a>
-        ))}
-      </div>
     </>
   );
 }

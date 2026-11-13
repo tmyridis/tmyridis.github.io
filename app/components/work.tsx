@@ -5,8 +5,8 @@ import Image from "next/image";
 import { gsap, MOTION } from "../lib/gsap";
 import projects from "../data/projects.json";
 
-const box =
-  "flex w-full shrink-0 flex-col gap-6 border-b border-line px-4 py-8 md:w-[450px] md:justify-start md:gap-10 md:border-r md:border-b-0 md:p-10 min-[1400px]:w-[600px] min-[1400px]:p-16";
+const card =
+  "flex shrink-0 flex-col gap-6 rounded-2xl border border-line bg-panel p-5 md:w-[440px] lg:p-8";
 
 export default function Work() {
   // The section pins while the row of projects scrolls sideways.
@@ -34,57 +34,60 @@ export default function Work() {
 
   return (
     <section id="work" className="md:h-svh md:overflow-hidden">
-      <div className="mx-auto flex h-full w-[94%] max-w-[1300px] flex-col">
-        <h2 className="mt-16 mb-6 text-4xl font-medium md:mt-20 md:text-[50px] min-[1400px]:text-[70px]">
+      <div className="mx-auto flex h-full w-[94%] max-w-[1300px] flex-col px-3">
+        <p className="mt-16 mb-3 text-sm tracking-[4px] text-muted uppercase md:mt-24">
+          <span className="text-violet">04</span> / Work
+        </p>
+        <h2 className="mb-8 text-4xl font-medium md:text-[50px] min-[1400px]:text-[70px]">
           Things I&apos;ve <span className="text-violet">built</span>
         </h2>
-        <div className="work-row relative flex flex-col border-line md:min-h-0 md:flex-1 md:flex-row md:border-y">
+        <div className="work-row flex flex-col gap-6 md:min-h-0 md:flex-1 md:flex-row md:items-start">
           {projects.map((project, index) => (
-            <article
+            <a
               key={project.name}
-              className={`${box} md:even:flex-col-reverse`}
+              href={project.githubURL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`${card} group transition-colors hover:border-violet lg:w-[min(1040px,80vw)] lg:flex-row lg:items-center lg:gap-10`}
             >
-              <div>
-                <div className="mb-4 flex justify-between gap-4">
-                  <p className="text-3xl leading-none font-semibold md:text-[50px]">
-                    0{index + 1}
-                  </p>
-                  <h3 className="text-right text-lg font-medium md:text-2xl">
-                    {project.name}
-                  </h3>
-                </div>
-                <p className="text-[13px] font-light text-muted">
-                  {project.description}
-                </p>
-                <h4 className="mt-4 font-medium">Tools and features</h4>
-                <p className="mt-1 text-[13px] font-light text-muted">
-                  {project.techStack.join(", ")}
-                </p>
-              </div>
-              <a
-                href={project.githubURL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group relative block aspect-[16/10] w-full overflow-hidden rounded-lg border border-line transition-colors hover:border-violet md:max-h-[40vh]"
-              >
+              <div className="relative aspect-[16/10] w-full overflow-hidden rounded-lg border border-line md:max-h-[36svh] lg:max-h-[58svh] lg:w-[58%]">
                 <Image
                   src={`/images/${project.image}`}
                   alt={`${project.name} screenshot`}
                   fill
-                  sizes="(min-width: 1400px) 470px, 370px"
-                  className="object-cover"
+                  sizes="(min-width: 1024px) 600px, 400px"
+                  className="object-cover transition-transform duration-500 group-hover:scale-105"
                 />
-                <span
-                  aria-hidden
-                  className="absolute right-2.5 bottom-2.5 flex size-12 items-center justify-center rounded-full bg-bg text-2xl opacity-0 shadow-[0_0_10px_rgb(255_255_255/0.5)] transition-opacity group-hover:opacity-100"
-                >
-                  ↗
-                </span>
-              </a>
-            </article>
+              </div>
+              <div className="lg:flex-1">
+                <p className="text-[13px] text-muted">
+                  <span className="text-violet">0{index + 1}</span> / 0
+                  {projects.length}
+                </p>
+                <h3 className="mt-2 text-2xl font-medium lg:text-4xl">
+                  {project.name}{" "}
+                  <span className="inline-block text-violet transition-transform group-hover:translate-x-1 group-hover:-translate-y-1">
+                    ↗
+                  </span>
+                </h3>
+                <p className="mt-4 text-[13px] leading-5 font-light text-muted">
+                  {project.description}
+                </p>
+                <div className="mt-5 flex flex-wrap gap-1.5">
+                  {project.techStack.map((tech) => (
+                    <span
+                      key={tech}
+                      className="rounded-md border border-line bg-bg/60 px-2 py-0.5 text-xs"
+                    >
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </a>
           ))}
           <div
-            className={`${box} items-center md:justify-center md:border-r-0`}
+            className={`${card} items-center justify-center border-dashed bg-transparent py-12 text-center md:w-[360px] md:self-stretch`}
           >
             <h3 className="text-2xl font-medium">
               There&apos;s more on GitHub

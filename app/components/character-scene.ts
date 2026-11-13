@@ -92,8 +92,7 @@ export function createCharacter(container: HTMLElement) {
     const { clientWidth: width, clientHeight: height } = container;
     renderer.setSize(width, height);
     camera.aspect = width / height;
-    // Zoom out on narrow screens so the shoulders fit: inside the canvas on
-    // small screens, and between the two blocks of text on desktop.
+    // Zoom out on narrow screens so the shoulders fit inside the canvas.
     camera.zoom = Math.min(
       1.1,
       (innerWidth < 1024 ? 1.3 : 0.62) * camera.aspect,
@@ -188,11 +187,14 @@ export function createCharacter(container: HTMLElement) {
         },
       });
 
-    // Landing -> About: the avatar turns and slides left to make room.
+    // Landing -> About: the avatar turns and slides right to make room. The
+    // lights swap sides with him so his face stays lit.
     scrub("#landing", "top top")
-      .fromTo(rig.rotation, { y: 0 }, { y: 0.7, duration: 1 }, 0)
+      .fromTo(rig.rotation, { y: 0 }, { y: -0.7, duration: 1 }, 0)
+      .to(keyLight.position, { x: -3, duration: 1 }, 0)
+      .to(rimLight.position, { x: 4, duration: 1 }, 0)
       .to(camera.position, { z: CLOSE.z * 0.9 }, 0)
-      .fromTo(".character-model", { x: 0 }, { x: "-25%", duration: 0.7 }, 0)
+      .fromTo(".character-model", { x: 0 }, { x: "25%", duration: 0.7 }, 0)
       .to(".landing-container", { opacity: 0, duration: 0.4 }, 0)
       .to(".landing-container", { y: "40%", duration: 0.8 }, 0)
       .fromTo(".about-me", { y: "-50%" }, { y: "0%" }, 0);
@@ -207,8 +209,8 @@ export function createCharacter(container: HTMLElement) {
       )
       .to("#about", { y: "30%", duration: 6 }, 0)
       .to("#about", { opacity: 0, delay: 4.5, duration: 1.5 }, 0)
-      .to(".character-model", { x: "-15%", delay: 2, duration: 5 }, 0)
-      .to(rig.rotation, { y: 0.92, x: 0.12, delay: 3, duration: 3 }, 0)
+      .to(".character-model", { x: "22%", delay: 2, duration: 5 }, 0)
+      .to(rig.rotation, { y: -0.92, x: 0.12, delay: 3, duration: 3 }, 0)
       .fromTo(desk.position, { y: -4 }, { y: 0, delay: 1.5, duration: 3 }, 0)
       .to(body, { opacity: 1, duration: 0.8, delay: 3.2 }, 0)
       .to(pose, { typing: 1, duration: 1.5, delay: 4 }, 0)

@@ -58,7 +58,7 @@ export default function Stack() {
     <section id="stack" className="overflow-hidden py-28 lg:py-40">
       <div className="mx-auto mb-12 w-[94%] max-w-[1300px] px-3">
         <p className="mb-3 text-sm tracking-[4px] text-muted uppercase">
-          Toolbox
+          <span className="text-violet">05</span> / Toolbox
         </p>
         <h2 className="text-4xl font-medium md:text-[50px] min-[1400px]:text-[70px]">
           What I build <span className="text-violet">with</span>

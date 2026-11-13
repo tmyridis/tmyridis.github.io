@@ -4,35 +4,26 @@ import { useEffect } from "react";
 import { gsap, SplitText, MOTION } from "../lib/gsap";
 import Character from "./character";
 
-const blurIn = {
-  from: { opacity: 0, y: 80, filter: "blur(5px)" },
-  to: {
-    opacity: 1,
-    y: 0,
-    filter: "blur(0px)",
-    duration: 1.2,
-    ease: "power3.inOut",
-    stagger: 0.025,
-    delay: 0.3,
-  },
-};
+const words = ["interfaces", "services"];
 
 export default function Landing() {
   useEffect(() => {
     const mm = gsap.matchMedia();
     mm.add(MOTION, () => {
-      const split = (target: string) =>
-        SplitText.create(target, { type: "chars,lines", mask: "lines" }).chars;
-
-      const first = split(".landing-word-a");
-      const second = split(".landing-word-b");
+      const name = SplitText.create(".landing-name", {
+        type: "chars,lines",
+        mask: "lines",
+      });
       gsap.fromTo(
-        [
-          ...split(".landing-intro p, .landing-intro h1, .landing-role"),
-          ...first,
-        ],
-        blurIn.from,
-        blurIn.to,
+        name.chars,
+        { yPercent: 100 },
+        {
+          yPercent: 0,
+          duration: 1.2,
+          ease: "power4.out",
+          stagger: 0.04,
+          delay: 0.3,
+        },
       );
       gsap.fromTo(
         ".site-fade",
@@ -40,58 +31,55 @@ export default function Landing() {
         { opacity: 1, duration: 1.2, ease: "power1.inOut", delay: 0.1 },
       );
 
-      // The two words sit on top of each other and take turns: one slides up
-      // and out while the other slides in from below, forever.
-      gsap.set(".landing-word-b", { visibility: "visible" });
-      const move = { duration: 1.2, ease: "power3.inOut", stagger: 0.08 };
-      gsap
-        .timeline({ repeat: -1, repeatDelay: 1 })
-        .fromTo(
-          second,
-          { opacity: 0, y: 80 },
-          { opacity: 1, y: 0, ...move, delay: 4 },
-          0,
-        )
-        .fromTo(first, { y: 80 }, { y: 0, ...move, delay: 9 }, 1)
-        .fromTo(first, { y: 0 }, { y: -80, ...move, delay: 4 }, 0)
-        .to(second, { y: -80, ...move, delay: 9 }, 1);
+      // The last word is deleted and retyped as the next one, forever.
+      const word = document.querySelector(".landing-word")!;
+      const typed = { length: words[0].length };
+      const type = (text: string, length: number, duration: number) => ({
+        length,
+        duration,
+        ease: "none",
+        onUpdate: () => {
+          word.textContent = text.slice(0, Math.round(typed.length));
+        },
+      });
+      const loop = gsap.timeline({ repeat: -1 });
+      words.forEach((current, index) => {
+        const next = words[(index + 1) % words.length];
+        loop
+          .to(typed, type(current, 0, 0.5), "+=3")
+          .to(typed, type(next, next.length, 0.7), "+=0.2");
+      });
+      return () => {
+        word.textContent = words[0];
+      };
     });
     return () => mm.revert();
   }, []);
 
   return (
+    // Clipped sideways because the glow behind the avatar is wider than a
+    // phone screen, which would widen the page and push the nav off it.
     <section
       id="landing"
-      className="relative mx-auto h-svh w-full max-w-[1920px]"
+      className="relative mx-auto h-svh w-full max-w-[1920px] overflow-x-clip"
     >
-      <div className="landing-container relative mx-auto h-full w-[94%]">
-        <div className="landing-intro absolute top-[14%] left-0 z-10 lg:top-[42%] lg:right-[71%] lg:left-auto lg:-translate-y-1/2">
-          <p className="text-lg font-light tracking-[2px] text-violet md:text-2xl min-[1600px]:text-3xl">
-            Hey, I&apos;m
-          </p>
-          <h1 className="mt-1 text-3xl leading-none font-medium tracking-[2px] md:text-[40px] min-[1600px]:text-6xl">
-            TEO
-            <br />
-            MYRIDIS
-          </h1>
-        </div>
-
-        <div className="absolute bottom-8 left-0 z-10 lg:top-[50%] lg:bottom-auto lg:left-[71%] lg:-translate-y-1/2">
-          <p className="landing-role text-sm tracking-[2px] whitespace-nowrap text-violet md:text-lg min-[1600px]:text-xl">
-            Full Stack Engineer
-          </p>
-          <p className="mt-2 text-[clamp(1.75rem,3vw,4rem)] leading-[1.1] font-semibold tracking-[2px] whitespace-nowrap uppercase">
-            <span className="landing-role block text-transparent [-webkit-text-stroke:1px_var(--color-ink)]">
-              I build
-            </span>
-            <span className="relative block text-violet">
-              <span className="landing-word-a block">interfaces</span>
-              <span className="landing-word-b invisible absolute top-0 left-0 block">
-                services
-              </span>
+      {/* The name runs edge to edge across the avatar's chest, in front of it. */}
+      <div className="landing-container @container relative z-20 mx-auto flex h-full w-[94%] flex-col justify-end pb-5">
+        <div className="site-fade mb-2 flex flex-col gap-1 text-sm tracking-[2px] md:text-lg lg:flex-row lg:justify-between">
+          <p className="text-violet">Full Stack Engineer</p>
+          <p>
+            <span className="sr-only">I build interfaces and services</span>
+            <span aria-hidden>
+              <span className="text-muted">&gt; I build </span>
+              <span className="landing-word">{words[0]}</span>
+              <span className="text-violet motion-safe:animate-pulse">_</span>
             </span>
           </p>
         </div>
+        {/* 11 monospace characters, each 0.6em wide, fill the container. */}
+        <h1 className="landing-name text-[15.1cqw] leading-[0.8] font-bold whitespace-nowrap">
+          TEO MYRIDIS
+        </h1>
       </div>
       <Character />
     </section>

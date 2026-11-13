@@ -5,8 +5,9 @@ import { gsap, MOTION } from "../lib/gsap";
 
 const skills = [
   {
-    title: "FRONTEND",
-    tagline: "Intuitive interfaces",
+    file: "frontend.tsx",
+    title: "Frontend",
+    tagline: "intuitive interfaces",
     description:
       "Responsive, accessible web apps with React and TypeScript, from component design to data fetching and state.",
     tools: [
@@ -22,8 +23,9 @@ const skills = [
     ],
   },
   {
-    title: "BACKEND",
-    tagline: "Robust services",
+    file: "backend.ts",
+    title: "Backend",
+    tagline: "robust services",
     description:
       "APIs and the data behind them with Node.js and PostgreSQL, typed end to end and shipped in containers.",
     tools: [
@@ -41,11 +43,11 @@ const skills = [
 ];
 
 export default function WhatIDo() {
-  // Tapping a card expands it. With a mouse, hovering does the same in CSS.
-  const [active, setActive] = useState<number | null>(null);
+  const [active, setActive] = useState(0);
+  const skill = skills[active];
 
-  // On desktop the character's scroll timeline reveals the cards when the
-  // camera reaches the desk. Everywhere else they reveal as they scroll in.
+  // On desktop the character's scroll timeline reveals the panel when the
+  // camera reaches the desk. Everywhere else it reveals as it scrolls in.
   useEffect(() => {
     const mm = gsap.matchMedia();
     mm.add(`(max-width: 1023px) and ${MOTION}`, () => {
@@ -65,11 +67,11 @@ export default function WhatIDo() {
   return (
     <section
       id="what"
-      className="relative z-20 mx-auto flex w-[94%] max-w-[1920px] flex-col items-center justify-center gap-10 py-16 lg:h-svh lg:flex-row lg:justify-between lg:py-0"
+      className="relative z-20 mx-auto flex w-[94%] max-w-[1920px] flex-col items-center justify-center gap-10 py-16 lg:h-svh lg:items-start lg:py-0 xl:pl-[4%]"
     >
-      <div className="w-full max-w-[500px] lg:w-auto lg:max-w-none xl:pl-[4%]">
+      <div className="w-full max-w-[500px]">
         <p className="mb-3 text-sm tracking-[4px] text-muted uppercase">
-          What I do
+          <span className="text-violet">02</span> / What I do
         </p>
         <h2
           data-reveal="chars"
@@ -80,52 +82,56 @@ export default function WhatIDo() {
         </h2>
       </div>
 
-      {/* The slot keeps its height while the cards are hidden. */}
-      <div className="what-cards-slot h-[560px] w-full max-w-[500px] lg:h-[470px] lg:w-[380px] lg:max-w-none xl:mr-[4%] xl:h-[500px] xl:w-[450px]">
-        <div className="what-cards">
-          <svg aria-hidden className="what-sides">
-            <line x1="0" y1="0" x2="0" y2="100%" />
-            <line x1="100%" y1="0" x2="100%" y2="100%" />
-          </svg>
-          {skills.map((skill, index) => (
-            <div
-              key={skill.title}
-              className="what-card"
-              data-active={active === null ? undefined : active === index}
-              onClick={() => setActive(active === index ? null : index)}
-            >
-              <svg aria-hidden className="what-rules">
-                {index === 0 && <line x1="0" y1="0" x2="100%" y2="0" />}
-                <line x1="0" y1="100%" x2="100%" y2="100%" />
-              </svg>
-              <span aria-hidden className="what-corners" />
-              <div className="what-card-in">
-                <h3 className="text-[28px] leading-tight tracking-[1px] xl:text-[32px]">
-                  {skill.title}
-                </h3>
-                <h4 className="text-sm font-light tracking-[1px] text-violet">
-                  {skill.tagline}
-                </h4>
-                <p className="my-3 text-[13px] leading-[18px] font-light tracking-wide">
-                  {skill.description}
-                </p>
-                <h5 className="mb-1.5 text-xs font-light tracking-[1px] text-muted">
-                  Skillset &amp; tools
-                </h5>
-                <div className="flex flex-wrap gap-1.5">
-                  {skill.tools.map((tool) => (
-                    <span
-                      key={tool}
-                      className="rounded-full border border-ink/30 bg-ink/15 px-2 py-0.5 text-xs"
-                    >
-                      {tool}
-                    </span>
-                  ))}
-                </div>
-                <span aria-hidden className="what-arrow" />
-              </div>
+      {/* The slot keeps its height while the panel is hidden. */}
+      <div className="what-cards-slot flex min-h-[350px] w-full max-w-[500px] lg:min-h-[330px]">
+        {/* An editor window with one file per side of the stack. */}
+        <div className="what-cards flex w-full flex-col overflow-hidden rounded-xl border border-line bg-panel/85 backdrop-blur-md">
+          <div role="tablist" className="flex border-b border-line bg-bg/60">
+            {skills.map(({ file }, index) => (
+              <button
+                key={file}
+                role="tab"
+                aria-selected={active === index}
+                onClick={() => setActive(index)}
+                className={`relative cursor-pointer border-r border-line px-5 py-3 text-[13px] transition-colors ${active === index ? "bg-panel text-ink" : "text-muted hover:text-ink"}`}
+              >
+                {file}
+                {/* When the bar has filled up, the next tab opens. */}
+                {active === index && (
+                  <span
+                    aria-hidden
+                    className="what-timer absolute inset-x-0 top-0 h-0.5 origin-left bg-violet"
+                    onAnimationEnd={() =>
+                      setActive((index + 1) % skills.length)
+                    }
+                  />
+                )}
+              </button>
+            ))}
+          </div>
+          <div role="tabpanel" className="flex-1 p-6 xl:p-8">
+            <p className="text-[13px] text-muted">
+              {"// "}
+              {skill.tagline}
+            </p>
+            <h3 className="mt-1 text-[28px] leading-tight font-medium xl:text-[32px]">
+              {skill.title}
+              <span className="text-violet">.</span>
+            </h3>
+            <p className="mt-3 text-[13px] leading-5 font-light">
+              {skill.description}
+            </p>
+            <div className="mt-5 flex flex-wrap gap-1.5">
+              {skill.tools.map((tool) => (
+                <span
+                  key={tool}
+                  className="rounded-md border border-line bg-bg/60 px-2 py-0.5 text-xs"
+                >
+                  {tool}
+                </span>
+              ))}
             </div>
-          ))}
+          </div>
         </div>
       </div>
     </section>

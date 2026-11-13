@@ -23,14 +23,14 @@ The site is a single page whose sections animate with scroll, around a 3D avatar
 
 - `scroll-fx.tsx`: Lenis smooth scrolling, plus the text reveal for any element with `data-reveal="chars"` or `data-reveal="words"`
 - `cursor.tsx` / `fluid.ts`: coloured smoke that trails the pointer, a WebGL2 fluid simulation on a fixed canvas behind the page (mouse only). The loop stops 10 seconds after the last pointer event
-- `nav.tsx`: fixed header with a pill of links that highlights the section on screen, glow blobs and social links
-- `landing.tsx`: name and role with the intro animation, and `character.tsx`
+- `nav.tsx`: fixed header with a pill of links that highlights the section on screen
+- `landing.tsx`: the name set edge to edge across the avatar's chest, the role and a line that retypes its last word, and `character.tsx`
 - `character.tsx` / `character-scene.ts` / `avatar.ts`: the three.js scene. `avatar.ts` builds the avatar from primitives (no model file) and poses it each frame; `character-scene.ts` adds the desk, lights and camera. On desktop the canvas is fixed and three scrubbed timelines move it through Landing, About and What I do; elsewhere it sits in the landing
-- `about.tsx`, `what-i-do.tsx`: bio, and the two skill cards the camera pulls back to
-- `career.tsx`: jobs along a line that grows with scroll, rendered from `app/data/career.json` (`end: null` means the current job)
-- `work.tsx`: projects in a row that scrolls sideways while the section is pinned, rendered from `app/data/projects.json`
+- `about.tsx`, `what-i-do.tsx`: bio, and the editor-style panel the camera pulls back to, with a tab per side of the stack that switches on a timer (the `.what-timer` CSS animation; its `animationend` opens the next tab)
+- `career.tsx`: jobs as rows that reveal on scroll, beside a line that grows with scroll, rendered from `app/data/career.json` (`end: null` means the current job)
+- `work.tsx`: project cards in a row that scrolls sideways while the section is pinned, rendered from `app/data/projects.json`
 - `stack.tsx`: tech icons from `public/images/` in two rows that drift sideways with scroll
-- `contact.tsx`: contact links and footer
+- `contact.tsx`: email and social links as rows, and the footer
 
 `app/not-found.tsx` redirects every unknown route to `/`.
 
