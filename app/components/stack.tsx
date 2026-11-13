@@ -1,71 +1,97 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useEffect } from "react";
+import Image from "next/image";
+import { gsap, MOTION } from "../lib/gsap";
 
-const logo = `████████╗███████╗ ██████╗
-╚══██╔══╝██╔════╝██╔═══██╗
-   ██║   █████╗  ██║   ██║
-   ██║   ██╔══╝  ██║   ██║
-   ██║   ███████╗╚██████╔╝
-   ╚═╝   ╚══════╝ ╚═════╝`;
-
-const info = [
-  ["role", "Software engineer"],
-  ["languages", "HTML, CSS, JavaScript, TypeScript"],
-  ["frontend", "React, Tailwind"],
-  ["backend", "Node.js, Express"],
-  ["database", "PostgreSQL"],
-  ["tooling", "Git, Docker"],
+const rows = [
+  [
+    ["HTML", "htmlIcon"],
+    ["CSS", "cssIcon"],
+    ["JavaScript", "javascriptIcon"],
+    ["TypeScript", "typescriptIcon"],
+    ["React", "reactIcon"],
+    ["Tailwind", "tailwindIcon"],
+    ["shadcn", "shadcnIcon"],
+    ["Git", "gitIcon"],
+  ],
+  [
+    ["Node.js", "nodeIcon"],
+    ["Express", "expressIcon"],
+    ["Socket.IO", "socketIoIcon"],
+    ["PostgreSQL", "postgresIcon"],
+    ["Firebase", "firebaseIcon"],
+    ["Supabase", "supabaseIcon"],
+    ["Docker", "dockerIcon"],
+    ["GitHub", "githubIcon"],
+  ],
 ];
-const swatches = ["bg-line", "bg-deep", "bg-violet", "bg-[#ddd0ff]", "bg-pink"];
+// Each row repeats so it stays full while it slides.
+const copies = [0, 1, 2];
 
 export default function Stack() {
+  // The rows drift in opposite directions as the section scrolls through.
+  useEffect(() => {
+    const mm = gsap.matchMedia();
+    mm.add(MOTION, () => {
+      gsap.utils.toArray<HTMLElement>(".stack-row").forEach((row, index) => {
+        gsap.fromTo(
+          row,
+          { xPercent: index % 2 ? -20 : 0 },
+          {
+            xPercent: index % 2 ? 0 : -20,
+            ease: "none",
+            scrollTrigger: {
+              trigger: "#stack",
+              start: "top bottom",
+              end: "bottom top",
+              scrub: 1,
+            },
+          },
+        );
+      });
+    });
+    return () => mm.revert();
+  }, []);
+
   return (
-    <section
-      id="stack"
-      className="mx-auto max-w-7xl scroll-mt-24 px-5 pt-20 pb-10 sm:px-8"
-    >
-      <p className="text-muted">$ neofetch --stack</p>
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-80px" }}
-        transition={{ duration: 0.7 }}
-        className="mt-5 flex flex-wrap items-center gap-x-10 gap-y-6 rounded-[10px] border border-line bg-panel p-6 shadow-[0_0_60px_rgb(124_58_237/0.2)] sm:p-8"
-      >
-        <pre
-          aria-hidden
-          className="text-[10px] leading-[1.15] font-extrabold text-violet [text-shadow:0_0_20px_rgb(167_139_250/0.7)] sm:text-lg"
-        >
-          {logo}
-        </pre>
-        <div className="min-w-0 flex-1 basis-80 sm:text-lg">
-          <p>
-            <span className="text-pink">teo</span>@
-            <span className="text-pink">portfolio</span>
-          </p>
-          <dl className="mt-1 grid grid-cols-[auto_1fr] gap-x-5 leading-8">
-            {info.map(([key, value], i) => (
-              <motion.div
-                key={key}
-                initial={{ opacity: 0, x: -10 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: 0.3 + i * 0.12 }}
-                className="col-span-2 grid grid-cols-subgrid"
-              >
-                <dt className="text-violet">{key}</dt>
-                <dd>{value}</dd>
-              </motion.div>
-            ))}
-          </dl>
-          <div aria-hidden className="mt-3 flex">
-            {swatches.map((swatch) => (
-              <span key={swatch} className={`h-5 w-9 ${swatch}`} />
-            ))}
+    <section id="stack" className="overflow-hidden py-28 lg:py-40">
+      <div className="mx-auto mb-12 w-[94%] max-w-[1300px] px-3">
+        <p className="mb-3 text-sm tracking-[4px] text-muted uppercase">
+          Toolbox
+        </p>
+        <h2 className="text-4xl font-medium md:text-[50px] min-[1400px]:text-[70px]">
+          What I build <span className="text-violet">with</span>
+        </h2>
+      </div>
+      <div className="flex flex-col gap-4 mask-x-from-90% motion-reduce:mask-none">
+        {rows.map((row) => (
+          <div
+            key={row[0][0]}
+            className="stack-row flex w-max gap-4 motion-reduce:w-auto motion-reduce:flex-wrap motion-reduce:justify-center motion-reduce:px-4"
+          >
+            {copies.map((copy) =>
+              row.map(([name, icon]) => (
+                <div
+                  key={name + copy}
+                  aria-hidden={copy > 0}
+                  className={`flex items-center gap-3 rounded-full border border-line bg-panel px-5 py-3 transition-colors hover:border-violet md:px-7 md:py-4 md:text-xl ${copy > 0 ? "motion-reduce:hidden" : ""}`}
+                >
+                  <Image
+                    src={`/images/${icon}.png`}
+                    alt=""
+                    width={32}
+                    height={32}
+                    // The Express logo is black, so it is flipped to white.
+                    className={`size-6 object-contain md:size-8 ${name === "Express" ? "invert" : ""}`}
+                  />
+                  {name}
+                </div>
+              )),
+            )}
           </div>
-        </div>
-      </motion.div>
+        ))}
+      </div>
     </section>
   );
 }
