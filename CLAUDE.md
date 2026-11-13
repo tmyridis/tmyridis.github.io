@@ -2,7 +2,7 @@
 
 # tmyridis portfolio
 
-Personal portfolio site. Next.js 16 (App Router) + React 19 + Tailwind CSS 4 + framer-motion, deployed as a static site to GitHub Pages.
+Personal portfolio site. Next.js 16 (App Router) + React 19 + Tailwind CSS 4 + GSAP + three.js, deployed as a static site to GitHub Pages.
 
 ## Commands
 
@@ -19,15 +19,18 @@ Pushing to `master` runs `.github/workflows/nextjs.yml`. At CI time, `actions/co
 
 ## Layout
 
-The site is a single page with a terminal look (monospace type, purple on near-black). `app/page.tsx` stacks the sections from `app/components/`:
+The site is a single page whose sections animate with scroll, around a 3D avatar. `app/page.tsx` stacks the sections from `app/components/`:
 
-- `nav.tsx`: fixed shell-prompt nav with a scroll progress bar
-- `hero.tsx`: headline over `code-rain.tsx` (falling code drawn on a 2D canvas) next to `terminals.tsx` (three terminal windows at different depths using CSS 3D; the stack tilts with the pointer)
-- `stack.tsx`: skills as a `neofetch`-style readout
-- `career.tsx`: jobs as a `git log --graph` timeline, rendered from `app/data/career.json` (`end: null` means the current job)
-- `work.tsx`: projects as a `git log --graph` timeline, rendered from `app/data/projects.json`
+- `scroll-fx.tsx`: Lenis smooth scrolling, plus the text reveal for any element with `data-reveal="chars"` or `data-reveal="words"`
+- `cursor.tsx` / `fluid.ts`: coloured smoke that trails the pointer, a WebGL2 fluid simulation on a fixed canvas behind the page (mouse only). The loop stops 10 seconds after the last pointer event
+- `nav.tsx`: fixed header with a pill of links that highlights the section on screen, glow blobs and social links
+- `landing.tsx`: name and role with the intro animation, and `character.tsx`
+- `character.tsx` / `character-scene.ts` / `avatar.ts`: the three.js scene. `avatar.ts` builds the avatar from primitives (no model file) and poses it each frame; `character-scene.ts` adds the desk, lights and camera. On desktop the canvas is fixed and three scrubbed timelines move it through Landing, About and What I do; elsewhere it sits in the landing
+- `about.tsx`, `what-i-do.tsx`: bio, and the two skill cards the camera pulls back to
+- `career.tsx`: jobs along a line that grows with scroll, rendered from `app/data/career.json` (`end: null` means the current job)
+- `work.tsx`: projects in a row that scrolls sideways while the section is pinned, rendered from `app/data/projects.json`
+- `stack.tsx`: tech icons from `public/images/` in two rows that drift sideways with scroll
 - `contact.tsx`: contact links and footer
-- `cursor.tsx`: the blinking block cursor
 
 `app/not-found.tsx` redirects every unknown route to `/`.
 
@@ -41,7 +44,9 @@ To add a project, add an entry to `app/data/projects.json` and put its screensho
 
 ## Gotchas
 
-- The 3D is CSS transforms, not WebGL. There is no three.js in the project.
-- Animations must respect `prefers-reduced-motion` (see `code-rain.tsx` and the media query in `globals.css`).
+- Import GSAP from `app/lib/gsap.ts`, which registers the plugins. Create every animation inside `gsap.matchMedia()` with its `MOTION` or `DESKTOP` query, so nothing moves under `prefers-reduced-motion` and the page still reads without JS animation. CSS animations are switched off in the media query in `globals.css`.
+- GSAP finds elements by id and by a few plain class names (`.landing-container`, `.about-me`, `.what-cards`, `.character-model`, `.character-rim`), some from another component's timeline. Search for a hook before renaming it.
+- The pinned Work section adds scroll height, so ScrollTriggers must be created in page order. Each section creates its own in its effect.
+- three.js is loaded with a dynamic `import()` in `character.tsx` to keep it out of the first bundle.
 - `typescript` is held at `~6.0` because typescript-eslint doesn't support TS 7 yet (peer `<6.1`). `eslint` is held at 9 because `eslint-config-next`'s react/import/jsx-a11y plugins don't support ESLint 10 yet. Recheck both before bumping.
 - `AGENTS.md` is generated and kept up to date by `next dev`. Don't edit it by hand.
