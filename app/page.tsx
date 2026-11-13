@@ -1,4 +1,5 @@
 import ScrollFx from "./components/scroll-fx";
+import Cursor from "./components/cursor";
 import Nav from "./components/nav";
 import Landing from "./components/landing";
 import About from "./components/about";
@@ -12,6 +13,7 @@ export default function HomePage() {
   return (
     <>
       <ScrollFx />
+      <Cursor />
       <Nav />
       <main>
         <Landing />
