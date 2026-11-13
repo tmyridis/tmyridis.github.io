@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "lenis/dist/lenis.css";
 
 @theme inline {
   --font-mono: var(--font-jetbrains-mono), ui-monospace, monospace;
@@ -13,38 +14,6 @@
   --color-violet: #a78bfa;
   --color-deep: #7c3aed;
   --color-pink: #ff7ad9;
-
-  --animate-blink: blink 1s steps(1) infinite;
-  --animate-pulse-glow: pulse-glow 3s ease-in-out infinite;
-  --animate-ping-dot: ping-dot 2s ease-in-out infinite;
-
-  @keyframes blink {
-    50% {
-      opacity: 0;
-    }
-  }
-  @keyframes pulse-glow {
-    0%,
-    100% {
-      text-shadow: 0 0 18px rgb(167 139 250 / 0.5);
-    }
-    50% {
-      text-shadow: 0 0 48px rgb(167 139 250 / 1);
-    }
-  }
-  @keyframes ping-dot {
-    0%,
-    100% {
-      box-shadow: 0 0 0 0 rgb(255 122 217 / 0.7);
-    }
-    50% {
-      box-shadow: 0 0 0 12px rgb(255 122 217 / 0);
-    }
-  }
-}
-
-html {
-  scroll-behavior: smooth;
 }
 
 body {
@@ -52,13 +21,204 @@ body {
   color: var(--color-ink);
 }
 
-@media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
+/* Blurred blobs of light at the edges of the screen (nav.tsx). */
+.glow-blob {
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  background: var(--color-pink);
+  box-shadow: inset -50px 40px 50px rgb(124 58 237 / 0.6);
+  filter: blur(60px);
+  animation: spin 5s linear infinite;
+}
+
+/* The dot at the end of the career line flickers like a spark. */
+.career-dot {
+  box-shadow:
+    0 0 5px 2px #d29bff,
+    0 0 15px 8px #d097ff,
+    0 0 110px 20px #f2c0ff;
+  animation: spark 0.8s linear infinite;
+}
+@keyframes spark {
+  10%,
+  20%,
+  50%,
+  70%,
+  90% {
+    box-shadow: 0 0 5px 2px #d29bff;
   }
-  .animate-blink,
-  .animate-pulse-glow,
-  .animate-ping-dot {
+}
+
+/* "What I do" cards (what-i-do.tsx): two stacked cards inside a dashed frame.
+   The hovered or tapped card grows and the other shrinks. The frame draws
+   itself whenever the cards are shown, because display: none -> flex restarts
+   the animations. The dark backing keeps the text readable if the desk ends
+   up behind it. */
+.what-cards {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  background: rgb(6 5 12 / 0.75);
+  backdrop-filter: blur(6px);
+}
+.what-card {
+  position: relative;
+  min-height: 50%;
+  height: 33%;
+  padding: 30px;
+  transition: 0.5s;
+  cursor: pointer;
+}
+.what-card[data-active="true"] {
+  min-height: 67%;
+  padding-block: 20px;
+}
+.what-card[data-active="false"] {
+  min-height: 33%;
+  padding-block: 10px;
+}
+@media (hover: hover) {
+  .what-card:hover {
+    min-height: 67%;
+    padding-block: 20px;
+  }
+  .what-cards:hover .what-card:not(:hover) {
+    min-height: 33%;
+    padding-block: 10px;
+  }
+}
+.what-card-in {
+  height: 100%;
+  overflow: hidden;
+  animation: what-flicker 0.5s 1s both;
+}
+.what-arrow {
+  position: absolute;
+  right: 20px;
+  bottom: 20px;
+  width: 25px;
+  height: 25px;
+  border: 1px solid var(--color-ink);
+}
+.what-arrow::before {
+  content: "";
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  width: 10px;
+  height: 10px;
+  border-bottom: 1px solid var(--color-ink);
+  border-left: 1px solid var(--color-ink);
+  transform: translate(-50%, -50%) rotate(-45deg);
+  transition: 0.5s;
+}
+.what-card[data-active="true"] .what-arrow::before {
+  transform: translate(-50%, -20%) rotate(-225deg);
+}
+@media (hover: hover) {
+  .what-card:hover .what-arrow::before {
+    transform: translate(-50%, -20%) rotate(-225deg);
+  }
+}
+.what-sides,
+.what-rules {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+  stroke: var(--color-ink);
+  stroke-width: 2;
+  stroke-dasharray: 7 7;
+  animation: what-draw 1.2s both;
+}
+.what-sides {
+  clip-path: inset(50% 0);
+}
+.what-rules {
+  clip-path: inset(0 50%);
+}
+.what-card::before,
+.what-card::after,
+.what-corners::before,
+.what-corners::after {
+  content: "";
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border: 4px solid var(--color-ink);
+  animation: what-flicker 0.2s 0.5s both;
+}
+.what-card::before {
+  top: -2px;
+  left: -2px;
+  border-right: none;
+  border-bottom: none;
+}
+.what-corners::before {
+  top: -2px;
+  right: -2px;
+  border-left: none;
+  border-bottom: none;
+}
+.what-card::after {
+  bottom: -2px;
+  left: -2px;
+  border-top: none;
+  border-right: none;
+}
+.what-corners::after {
+  right: -2px;
+  bottom: -2px;
+  border-top: none;
+  border-left: none;
+}
+@keyframes what-draw {
+  from {
+    opacity: 0.8;
+  }
+  80% {
+    opacity: 0.8;
+  }
+  to {
+    clip-path: inset(0);
+    opacity: 0.2;
+  }
+}
+@keyframes what-flicker {
+  0%,
+  25%,
+  35%,
+  60% {
+    opacity: 0;
+  }
+  30%,
+  40%,
+  50%,
+  100% {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .glow-blob,
+  .career-dot,
+  .what-card-in,
+  .what-sides,
+  .what-rules,
+  .what-card::before,
+  .what-card::after,
+  .what-corners::before,
+  .what-corners::after {
     animation: none;
+  }
+  .what-sides,
+  .what-rules {
+    clip-path: none;
+    opacity: 0.2;
   }
 }
