@@ -1,85 +1,103 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect } from "react";
 import Image from "next/image";
-import { motion, useScroll } from "framer-motion";
+import { gsap, MOTION } from "../lib/gsap";
 import projects from "../data/projects.json";
 
-const dotColors = ["bg-pink animate-ping-dot", "bg-violet", "bg-deep"];
+const box =
+  "flex w-full shrink-0 flex-col gap-6 border-b border-line px-4 py-8 md:w-[450px] md:justify-start md:gap-10 md:border-r md:border-b-0 md:p-10 min-[1400px]:w-[600px] min-[1400px]:p-16";
 
 export default function Work() {
-  const graph = useRef<HTMLDivElement>(null);
-  // The branch line is drawn as the graph scrolls through the screen.
-  const { scrollYProgress } = useScroll({
-    target: graph,
-    offset: ["start 80%", "end 60%"],
-  });
+  // The section pins while the row of projects scrolls sideways.
+  useEffect(() => {
+    const mm = gsap.matchMedia();
+    mm.add(`(min-width: 768px) and ${MOTION}`, () => {
+      const row = document.querySelector<HTMLElement>(".work-row")!;
+      const distance = () => row.scrollWidth - row.clientWidth;
+      gsap.to(row, {
+        x: () => -distance(),
+        ease: "none",
+        scrollTrigger: {
+          trigger: "#work",
+          start: "top top",
+          end: () => `+=${distance()}`,
+          scrub: 1,
+          pin: true,
+          anticipatePin: 1,
+          invalidateOnRefresh: true,
+        },
+      });
+    });
+    return () => mm.revert();
+  }, []);
 
   return (
-    <section
-      id="work"
-      className="mx-auto max-w-7xl scroll-mt-24 px-5 pt-20 pb-10 sm:px-8"
-    >
-      <p className="text-muted">$ git log --graph projects/</p>
-      <h2 className="mt-2 mb-11 text-[clamp(2.25rem,5.4vw,4.25rem)] leading-none font-extrabold tracking-tighter">
-        Things I&apos;ve <span className="text-violet">built</span>
-      </h2>
-
-      <div ref={graph} className="relative pl-11">
-        <motion.div
-          aria-hidden
-          style={{ scaleY: scrollYProgress }}
-          className="absolute top-2 bottom-2 left-[9px] w-0.5 origin-top bg-linear-to-b from-violet via-pink to-deep"
-        />
-        <div className="flex flex-col gap-12">
+    <section id="work" className="md:h-svh md:overflow-hidden">
+      <div className="mx-auto flex h-full w-[94%] max-w-[1300px] flex-col">
+        <h2 className="mt-16 mb-6 text-4xl font-medium md:mt-20 md:text-[50px] min-[1400px]:text-[70px]">
+          Things I&apos;ve <span className="text-violet">built</span>
+        </h2>
+        <div className="work-row relative flex flex-col border-line md:min-h-0 md:flex-1 md:flex-row md:border-y">
           {projects.map((project, index) => (
-            <motion.article
+            <article
               key={project.name}
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.6 }}
-              className="group relative flex flex-wrap items-center gap-7"
+              className={`${box} md:even:flex-col-reverse`}
             >
-              <span
-                aria-hidden
-                className={`absolute top-2.5 -left-11 size-5 rounded-full ${dotColors[index % dotColors.length]}`}
-              />
-              <div className="relative aspect-[16/10] w-80 max-w-full overflow-hidden rounded-lg border border-line transition-all duration-300 group-hover:border-violet group-hover:shadow-[0_0_40px_rgb(167_139_250/0.3)]">
+              <div>
+                <div className="mb-4 flex justify-between gap-4">
+                  <p className="text-3xl leading-none font-semibold md:text-[50px]">
+                    0{index + 1}
+                  </p>
+                  <h3 className="text-right text-lg font-medium md:text-2xl">
+                    {project.name}
+                  </h3>
+                </div>
+                <p className="text-[13px] font-light text-muted">
+                  {project.description}
+                </p>
+                <h4 className="mt-4 font-medium">Tools and features</h4>
+                <p className="mt-1 text-[13px] font-light text-muted">
+                  {project.techStack.join(", ")}
+                </p>
+              </div>
+              <a
+                href={project.githubURL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group relative block aspect-[16/10] w-full overflow-hidden rounded-lg border border-line transition-colors hover:border-violet md:max-h-[40vh]"
+              >
                 <Image
                   src={`/images/${project.image}`}
                   alt={`${project.name} screenshot`}
                   fill
-                  sizes="320px"
-                  className="object-cover transition-transform duration-500 group-hover:scale-105"
+                  sizes="(min-width: 1400px) 470px, 370px"
+                  className="object-cover"
                 />
-              </div>
-              <div className="min-w-0 flex-1 basis-80">
-                <p className="text-[13px]">
-                  <span className="text-pink">feat</span>
-                  <span className="text-muted">
-                    ({project.name.toLowerCase()})
-                  </span>
-                  {index === 0 && (
-                    <span className="text-violet"> (HEAD -&gt; main)</span>
-                  )}
-                </p>
-                <h3 className="mt-1 text-3xl font-extrabold">{project.name}</h3>
-                <p className="mt-2 text-sm text-muted">{project.description}</p>
-                <p className="mt-2 text-xs text-violet">
-                  {project.techStack.join(" ").toLowerCase()}
-                </p>
-                <a
-                  href={project.githubURL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mt-2 inline-block py-3 font-bold text-pink transition-colors hover:text-ink"
+                <span
+                  aria-hidden
+                  className="absolute right-2.5 bottom-2.5 flex size-12 items-center justify-center rounded-full bg-bg text-2xl opacity-0 shadow-[0_0_10px_rgb(255_255_255/0.5)] transition-opacity group-hover:opacity-100"
                 >
-                  $ git checkout →
-                </a>
-              </div>
-            </motion.article>
+                  ↗
+                </span>
+              </a>
+            </article>
           ))}
+          <div
+            className={`${box} items-center md:justify-center md:border-r-0`}
+          >
+            <h3 className="text-2xl font-medium">
+              There&apos;s more on GitHub
+            </h3>
+            <a
+              href="https://github.com/tmyridis"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="rounded-full border border-violet px-6 py-3 transition-colors hover:bg-violet hover:text-bg"
+            >
+              Browse the rest →
+            </a>
+          </div>
         </div>
       </div>
     </section>

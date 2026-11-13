@@ -1,6 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useEffect } from "react";
+import { gsap, MOTION, DESKTOP } from "../lib/gsap";
 import career from "../data/career.json";
 
 // The JSON only has a current job so far, so `end` would be inferred as null.
@@ -8,76 +9,106 @@ type Job = Omit<(typeof career)[number], "end"> & { end: string | null };
 const jobs: Job[] = career;
 
 export default function Career() {
+  useEffect(() => {
+    const mm = gsap.matchMedia();
+    // The glowing line grows down the middle as the section scrolls through.
+    mm.add(MOTION, () => {
+      gsap
+        .timeline({
+          scrollTrigger: {
+            trigger: "#career",
+            start: "top 50%",
+            end: "bottom 30%",
+            scrub: 1.5,
+            invalidateOnRefresh: true,
+          },
+        })
+        .fromTo(
+          ".career-line",
+          { maxHeight: "0%" },
+          { maxHeight: "100%", duration: 1, ease: "none" },
+          0,
+        )
+        .fromTo(
+          ".career-line",
+          { opacity: 0 },
+          { opacity: 1, duration: 0.2 },
+          0,
+        )
+        .fromTo(
+          ".career-job",
+          { opacity: 0 },
+          { opacity: 1, stagger: 0.1, duration: 0.15 },
+          0,
+        );
+    });
+    mm.add(DESKTOP, () => {
+      gsap.fromTo(
+        "#career",
+        { y: 0 },
+        {
+          y: "20%",
+          ease: "none",
+          scrollTrigger: {
+            trigger: "#career",
+            start: "top 50%",
+            end: "bottom 30%",
+            scrub: 1.5,
+          },
+        },
+      );
+    });
+    return () => mm.revert();
+  }, []);
+
   return (
     <section
       id="career"
-      className="mx-auto max-w-7xl scroll-mt-24 px-5 pt-20 pb-10 sm:px-8"
+      className="relative mx-auto flex w-[94%] max-w-[1300px] flex-col items-center px-3 pt-24 pb-16 lg:mb-64 lg:py-32"
     >
-      <p className="text-muted">$ git log --graph career/</p>
-      <h2 className="mt-2 mb-11 text-[clamp(2.25rem,5.4vw,4.25rem)] leading-none font-extrabold tracking-tighter">
-        My career &amp; <span className="text-violet">experience</span>
+      <h2 className="mb-20 bg-linear-to-t from-deep to-white bg-clip-text text-center text-[45px] leading-none text-transparent md:text-[50px] min-[1400px]:text-[70px]">
+        Where I&apos;ve
+        <br /> worked
       </h2>
 
-      <div className="relative pl-11">
-        <motion.div
-          aria-hidden
-          initial={{ scaleY: 0 }}
-          whileInView={{ scaleY: 1 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 1.4, ease: [0.2, 0.8, 0.2, 1] }}
-          className="absolute top-2 bottom-0 left-[9px] w-0.5 origin-top bg-linear-to-b from-pink via-violet to-transparent"
-        />
-        <div className="flex flex-col gap-12 pb-16">
-          {jobs.map((job) => (
-            <motion.article
-              key={job.company + job.start}
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.6, delay: 0.3 }}
-              className="relative flex flex-wrap items-start gap-x-14 gap-y-5"
-            >
-              <span
-                aria-hidden
-                className={`absolute top-2.5 -left-11 size-5 rounded-full ${job.end ? "bg-violet" : "animate-ping-dot bg-pink"}`}
-              />
-              <div className="w-52">
-                <p className="text-[clamp(2.125rem,4.6vw,3.75rem)] leading-none font-extrabold tracking-tighter text-violet [text-shadow:0_0_30px_rgb(167_139_250/0.6)]">
-                  {job.end ? job.end.slice(-4) : "NOW"}
+      <div className="relative flex w-full flex-col">
+        <div className="career-line absolute -top-12 left-0 h-full w-[3px] bg-linear-to-t from-deep from-20% via-violet via-50% to-transparent to-95% min-[900px]:left-1/2 min-[900px]:-translate-x-1/2">
+          <div className="career-dot absolute bottom-0 left-1/2 size-2.5 -translate-x-1/2 translate-y-1/2 rounded-full bg-deep" />
+        </div>
+
+        {jobs.map((job) => (
+          <article
+            key={job.company + job.start}
+            className="career-job mb-16 flex flex-col gap-3 pl-[8%] min-[900px]:flex-row min-[900px]:justify-between min-[900px]:pl-0"
+          >
+            <div className="flex justify-between gap-5 min-[900px]:w-[45%]">
+              <div>
+                <h3 className="text-[22px] leading-tight font-medium min-[1400px]:text-[30px]">
+                  {job.role}
+                </h3>
+                <p className="mt-2 text-violet min-[1400px]:text-xl">
+                  {job.company}
                 </p>
-                <p className="mt-2 text-[13px] text-muted">
+                <p className="mt-1 text-[13px] text-muted">
                   {job.start} — {job.end ?? "present"}
                 </p>
               </div>
-              <div className="min-w-0 flex-1 basis-80">
-                <p className="text-[13px]">
-                  <span className="text-pink">feat</span>
-                  <span className="text-muted">
-                    ({job.company.toLowerCase()})
-                  </span>
-                  {!job.end && (
-                    <span className="text-violet"> (HEAD -&gt; main)</span>
-                  )}
-                </p>
-                <h3 className="mt-1 text-3xl font-extrabold">{job.role}</h3>
-                <p className="mt-0.5 text-violet">@ {job.company}</p>
-                <ul className="mt-3 max-w-2xl text-sm text-muted">
-                  {job.highlights.map((highlight) => (
-                    <li key={highlight} className="flex gap-2">
-                      <span aria-hidden className="text-pink">
-                        +
-                      </span>
-                      {highlight}
-                    </li>
-                  ))}
-                </ul>
-                <p className="mt-3 text-xs text-violet">
-                  {job.techStack.join(" ").toLowerCase()}
-                </p>
-              </div>
-            </motion.article>
-          ))}
-        </div>
+              <p className="text-[38px] leading-none font-medium min-[1400px]:text-5xl">
+                {job.end ? job.start.slice(-4) : "NOW"}
+              </p>
+            </div>
+            <div className="min-[900px]:w-[45%]">
+              <ul className="text-sm leading-5 font-light">
+                {job.highlights.map((highlight) => (
+                  <li key={highlight}>{highlight}</li>
+                ))}
+              </ul>
+              <p className="mt-3 text-xs text-violet">
+                {job.techStack.join(" · ")}
+              </p>
+            </div>
+          </article>
+        ))}
       </div>
     </section>
   );
