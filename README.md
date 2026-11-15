@@ -1,17 +1,19 @@
 # ~/tmyridis/portfolio
 
-Hi, I'm Teo, and this is my personal portfolio: a single page styled like a terminal, live at [tmyridis.github.io](https://tmyridis.github.io).
+Hi, I'm Teo, and this is my personal portfolio: a single scroll-animated page around a 3D avatar, live at [tmyridis.github.io](https://tmyridis.github.io).
 
 ## Tech Stack
 
-Next.js 16 (App Router), React 19, Tailwind CSS 4 and framer-motion, exported as a static site.
+Next.js 16 (App Router), React 19, Tailwind CSS 4, GSAP (ScrollTrigger, SplitText), Lenis and three.js, exported as a static site.
 
 ## What's on the page
 
-- **Hero**: falling code drawn on a canvas behind three terminal windows stacked in CSS 3D that tilt with the pointer
-- **Stack**: skills as a `neofetch` readout
-- **Career** and **Work**: jobs and projects as `git log --graph` timelines
-- **Contact**: links and footer
+- **Landing**: name and role next to a 3D avatar whose head follows the pointer
+- **About** and **What I do**: as you scroll, the avatar turns, the camera pulls back and he sits typing at a desk
+- **Career**: jobs along a line that grows with scroll
+- **Work**: projects in a row that scrolls sideways while the section is pinned
+- **Tech stack**: two rows of tools that drift sideways with scroll
+- **Contact**
 
 All animations respect `prefers-reduced-motion`.
 
