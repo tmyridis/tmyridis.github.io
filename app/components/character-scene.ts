@@ -11,6 +11,7 @@ import {
 import { gsap, DESKTOP } from "../lib/gsap";
 import { buildAvatar } from "./avatar";
 import { buildDesk } from "./desk";
+import { buildIde } from "./ide";
 
 // Camera framing: a bust shot for the landing, pulled back to show the desk.
 const CLOSE = { y: 3.05, z: 15 };
@@ -39,6 +40,8 @@ export function createCharacter(container: HTMLElement) {
   const rig = new Group();
   const { avatar, pose, update } = buildAvatar();
   const { desk, materials, glow, screenLight } = buildDesk();
+  const ide = buildIde(getComputedStyle(container).fontFamily);
+  desk.add(ide.screen);
   desk.visible = false;
   rig.add(avatar, desk);
   scene.add(rig);
@@ -112,6 +115,7 @@ export function createCharacter(container: HTMLElement) {
     look.y = MathUtils.lerp(look.y, atTop ? pointer.x * 0.5 : 0, 0.1);
     look.x = MathUtils.lerp(look.x, atTop ? pointer.y * 0.3 : 0.12, 0.1);
     update(time / 1000, look);
+    ide.update(time / 1000, pose.typing > 0.9);
 
     desk.visible = materials[0].opacity > 0;
     screenLight.intensity = glow.opacity > 0.9 ? 6 * glow.emissiveIntensity : 0;
@@ -155,8 +159,8 @@ export function createCharacter(container: HTMLElement) {
       .to(".landing-container", { y: "40%", duration: 0.8 }, 0)
       .fromTo(".about-me", { y: "-50%" }, { y: "0%" }, 0);
 
-    // About -> What I do: the camera pulls back, the desk and chair rise in
-    // and he starts typing.
+    // About -> What I do: the camera pulls back, the desk and chair rise in,
+    // he starts typing and the editor unfolds behind him.
     scrub("#about", "center 55%")
       .to(
         camera.position,
@@ -171,6 +175,9 @@ export function createCharacter(container: HTMLElement) {
       .to(materials, { opacity: 1, duration: 0.8, delay: 3.2 }, 0)
       .to(pose, { typing: 1, duration: 1.5, delay: 4 }, 0)
       .to(glow, { opacity: 1, duration: 0.8, delay: 4.5 }, 0)
+      // The editor waits until the About text it would cross has faded.
+      .to(ide.screen.material, { opacity: 1, duration: 1, delay: 6 }, 0)
+      .fromTo(ide.screen.scale, { y: 0 }, { y: 1, duration: 1, delay: 6 }, 0)
       .fromTo(
         ".what-cards",
         { display: "none" },
