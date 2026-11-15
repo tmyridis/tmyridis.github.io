@@ -1,64 +1,20 @@
 import {
   ACESFilmicToneMapping,
-  BoxGeometry,
   DirectionalLight,
   Group,
   HemisphereLight,
   MathUtils,
-  Mesh,
-  MeshStandardMaterial,
   PerspectiveCamera,
-  PointLight,
   Scene,
   WebGLRenderer,
 } from "three";
 import { gsap, DESKTOP } from "../lib/gsap";
 import { buildAvatar } from "./avatar";
+import { buildDesk } from "./desk";
 
 // Camera framing: a bust shot for the landing, pulled back to show the desk.
 const CLOSE = { y: 3.05, z: 15 };
 const WIDE = { y: 1.9, z: 34 };
-
-function buildDesk() {
-  const desk = new Group();
-  const body = new MeshStandardMaterial({
-    color: "#2a2350",
-    roughness: 0.6,
-    transparent: true,
-    opacity: 0,
-  });
-  const glow = new MeshStandardMaterial({
-    color: "#000000",
-    emissive: "#c8bfff",
-    transparent: true,
-    opacity: 0,
-  });
-  const part = (
-    size: [number, number, number],
-    position: [number, number, number],
-    material = body,
-  ) => {
-    const mesh = new Mesh(new BoxGeometry(...size), material);
-    mesh.position.set(...position);
-    desk.add(mesh);
-  };
-  part([3.2, 0.1, 1.5], [0, 1.62, 1.6]); // desk top
-  part([0.1, 1.62, 1.4], [-1.5, 0.81, 1.6]); // desk legs
-  part([0.1, 1.62, 1.4], [1.5, 0.81, 1.6]);
-  part([1.3, 0.06, 0.42], [0, 1.7, 1.12]); // keyboard
-  part([0.18, 0.3, 0.08], [0, 1.8, 2.05]); // monitor stand
-  part([2, 1.1, 0.08], [0, 2.45, 2]); // monitor
-  part([1.84, 0.94, 0.02], [0, 2.45, 1.95], glow); // screen, facing the avatar
-  part([1.1, 0.14, 1], [0, 1, 0]); // chair seat
-  part([1.05, 1.3, 0.12], [0, 1.75, -0.52]); // chair back
-  part([0.14, 0.9, 0.14], [0, 0.48, 0]); // chair post
-  part([0.9, 0.08, 0.9], [0, 0.04, 0]); // chair base
-
-  const screenLight = new PointLight("#c8bfff", 0, 12);
-  screenLight.position.set(0, 2.5, 1.5);
-  desk.add(screenLight);
-  return { desk, body, glow, screenLight };
-}
 
 export function createCharacter(container: HTMLElement) {
   const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -82,7 +38,7 @@ export function createCharacter(container: HTMLElement) {
 
   const rig = new Group();
   const { avatar, pose, update } = buildAvatar();
-  const { desk, body, glow, screenLight } = buildDesk();
+  const { desk, materials, glow, screenLight } = buildDesk();
   desk.visible = false;
   rig.add(avatar, desk);
   scene.add(rig);
@@ -157,7 +113,7 @@ export function createCharacter(container: HTMLElement) {
     look.x = MathUtils.lerp(look.x, atTop ? pointer.y * 0.3 : 0.12, 0.1);
     update(time / 1000, look);
 
-    desk.visible = body.opacity > 0;
+    desk.visible = materials[0].opacity > 0;
     screenLight.intensity = glow.opacity > 0.9 ? 6 * glow.emissiveIntensity : 0;
     render();
   };
@@ -212,7 +168,7 @@ export function createCharacter(container: HTMLElement) {
       .to(".character-model", { x: "22%", delay: 2, duration: 5 }, 0)
       .to(rig.rotation, { y: -0.92, x: 0.12, delay: 3, duration: 3 }, 0)
       .fromTo(desk.position, { y: -4 }, { y: 0, delay: 1.5, duration: 3 }, 0)
-      .to(body, { opacity: 1, duration: 0.8, delay: 3.2 }, 0)
+      .to(materials, { opacity: 1, duration: 0.8, delay: 3.2 }, 0)
       .to(pose, { typing: 1, duration: 1.5, delay: 4 }, 0)
       .to(glow, { opacity: 1, duration: 0.8, delay: 4.5 }, 0)
       .fromTo(
