@@ -14,11 +14,8 @@ export default function About() {
         >
           I&apos;m a software engineer who likes{" "}
           <span className="text-ink">both halves of the job</span>: the
-          interface people touch and the service behind it. I work mostly in{" "}
-          <span className="text-ink">
-            React, TypeScript, Node.js and PostgreSQL
-          </span>
-          . Right now I&apos;m a Full Stack Engineer at{" "}
+          interface people touch and the service behind it. Right now I&apos;m a
+          Full Stack Engineer at{" "}
           <span className="text-violet">BetAdvanced</span>, building the
           in-house tools operators use every day.
         </p>
