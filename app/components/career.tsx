@@ -1,6 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useEffect } from "react";
+import { gsap, MOTION } from "../lib/gsap";
 import career from "../data/career.json";
 
 // The JSON only has a current job so far, so `end` would be inferred as null.
@@ -8,76 +9,106 @@ type Job = Omit<(typeof career)[number], "end"> & { end: string | null };
 const jobs: Job[] = career;
 
 export default function Career() {
+  // The glowing line grows down the left as the list scrolls through. Each
+  // job's rule draws across, then its columns rise in.
+  useEffect(() => {
+    const mm = gsap.matchMedia();
+    mm.add(MOTION, () => {
+      gsap.fromTo(
+        ".career-line",
+        { maxHeight: "0%" },
+        {
+          maxHeight: "100%",
+          ease: "none",
+          scrollTrigger: {
+            trigger: ".career-list",
+            start: "top 70%",
+            end: "bottom 55%",
+            scrub: 1.5,
+          },
+        },
+      );
+      gsap.utils.toArray<HTMLElement>(".career-job").forEach((job) => {
+        gsap
+          .timeline({ scrollTrigger: { trigger: job, start: "top 80%" } })
+          .fromTo(
+            job.querySelector(".career-rule"),
+            { scaleX: 0 },
+            { scaleX: 1, duration: 1, ease: "power3.out" },
+          )
+          .fromTo(
+            job.querySelectorAll(".career-col"),
+            { opacity: 0, y: 30 },
+            {
+              opacity: 1,
+              y: 0,
+              duration: 0.6,
+              stagger: 0.12,
+              ease: "power3.out",
+            },
+            0.15,
+          );
+      });
+    });
+    return () => mm.revert();
+  }, []);
+
   return (
     <section
       id="career"
-      className="mx-auto max-w-7xl scroll-mt-24 px-5 pt-20 pb-10 sm:px-8"
+      className="mx-auto w-[94%] max-w-[1300px] px-3 pt-24 pb-16 lg:pt-56 lg:pb-32"
     >
-      <p className="text-muted">$ git log --graph career/</p>
-      <h2 className="mt-2 mb-11 text-[clamp(2.25rem,5.4vw,4.25rem)] leading-none font-extrabold tracking-tighter">
-        My career &amp; <span className="text-violet">experience</span>
+      <p className="mb-3 text-sm tracking-[4px] text-muted uppercase">
+        <span className="text-violet">03</span> / Career
+      </p>
+      <h2 className="mb-12 text-4xl font-medium md:text-[50px] min-[1400px]:text-[70px]">
+        Where I&apos;ve <span className="text-violet">worked</span>
       </h2>
 
-      <div className="relative pl-11">
-        <motion.div
-          aria-hidden
-          initial={{ scaleY: 0 }}
-          whileInView={{ scaleY: 1 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 1.4, ease: [0.2, 0.8, 0.2, 1] }}
-          className="absolute top-2 bottom-0 left-[9px] w-0.5 origin-top bg-linear-to-b from-pink via-violet to-transparent"
-        />
-        <div className="flex flex-col gap-12 pb-16">
-          {jobs.map((job) => (
-            <motion.article
-              key={job.company + job.start}
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.6, delay: 0.3 }}
-              className="relative flex flex-wrap items-start gap-x-14 gap-y-5"
-            >
-              <span
-                aria-hidden
-                className={`absolute top-2.5 -left-11 size-5 rounded-full ${job.end ? "bg-violet" : "animate-ping-dot bg-pink"}`}
-              />
-              <div className="w-52">
-                <p className="text-[clamp(2.125rem,4.6vw,3.75rem)] leading-none font-extrabold tracking-tighter text-violet [text-shadow:0_0_30px_rgb(167_139_250/0.6)]">
-                  {job.end ? job.end.slice(-4) : "NOW"}
-                </p>
-                <p className="mt-2 text-[13px] text-muted">
-                  {job.start} — {job.end ?? "present"}
-                </p>
-              </div>
-              <div className="min-w-0 flex-1 basis-80">
-                <p className="text-[13px]">
-                  <span className="text-pink">feat</span>
-                  <span className="text-muted">
-                    ({job.company.toLowerCase()})
-                  </span>
-                  {!job.end && (
-                    <span className="text-violet"> (HEAD -&gt; main)</span>
-                  )}
-                </p>
-                <h3 className="mt-1 text-3xl font-extrabold">{job.role}</h3>
-                <p className="mt-0.5 text-violet">@ {job.company}</p>
-                <ul className="mt-3 max-w-2xl text-sm text-muted">
-                  {job.highlights.map((highlight) => (
-                    <li key={highlight} className="flex gap-2">
-                      <span aria-hidden className="text-pink">
-                        +
-                      </span>
-                      {highlight}
-                    </li>
-                  ))}
-                </ul>
-                <p className="mt-3 text-xs text-violet">
-                  {job.techStack.join(" ").toLowerCase()}
-                </p>
-              </div>
-            </motion.article>
-          ))}
+      <div className="career-list relative pl-8 min-[900px]:pl-14">
+        <div className="career-line absolute top-0 left-0 h-full w-[3px] bg-linear-to-t from-deep from-20% via-violet via-50% to-transparent to-95%">
+          <div className="career-dot absolute bottom-0 left-1/2 size-2.5 -translate-x-1/2 translate-y-1/2 rounded-full bg-deep" />
         </div>
+        {jobs.map((job) => (
+          <article
+            key={job.company + job.start}
+            className="career-job relative grid gap-5 py-10 min-[900px]:grid-cols-[200px_1fr_1.3fr] min-[900px]:gap-10"
+          >
+            <span
+              aria-hidden
+              className="career-rule absolute inset-x-0 top-0 h-px origin-left bg-line"
+            />
+            <p className="career-col flex items-center gap-2.5 self-start text-[13px] text-muted">
+              {!job.end && (
+                <span className="size-2 rounded-full bg-violet motion-safe:animate-pulse" />
+              )}
+              {job.start} — {job.end ?? "now"}
+            </p>
+            <div className="career-col">
+              <h3 className="text-[22px] leading-tight font-medium min-[1400px]:text-[28px]">
+                {job.role}
+              </h3>
+              <p className="mt-2 text-violet">{job.company}</p>
+            </div>
+            <div className="career-col">
+              <ul className="space-y-1.5 text-sm leading-5 font-light">
+                {job.highlights.map((highlight) => (
+                  <li key={highlight}>{highlight}</li>
+                ))}
+              </ul>
+              <div className="mt-4 flex flex-wrap gap-1.5">
+                {job.techStack.map((tech) => (
+                  <span
+                    key={tech}
+                    className="rounded-md border border-line px-2 py-0.5 text-xs text-muted"
+                  >
+                    {tech}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </article>
+        ))}
       </div>
     </section>
   );

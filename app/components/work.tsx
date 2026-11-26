@@ -1,85 +1,106 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect } from "react";
 import Image from "next/image";
-import { motion, useScroll } from "framer-motion";
+import { gsap, MOTION } from "../lib/gsap";
 import projects from "../data/projects.json";
 
-const dotColors = ["bg-pink animate-ping-dot", "bg-violet", "bg-deep"];
+const card =
+  "flex shrink-0 flex-col gap-6 rounded-2xl border border-line bg-panel p-5 md:w-[440px] lg:p-8";
 
 export default function Work() {
-  const graph = useRef<HTMLDivElement>(null);
-  // The branch line is drawn as the graph scrolls through the screen.
-  const { scrollYProgress } = useScroll({
-    target: graph,
-    offset: ["start 80%", "end 60%"],
-  });
+  // The section pins while the row of projects scrolls sideways.
+  useEffect(() => {
+    const mm = gsap.matchMedia();
+    mm.add(`(min-width: 768px) and ${MOTION}`, () => {
+      const row = document.querySelector<HTMLElement>(".work-row")!;
+      const distance = () => row.scrollWidth - row.clientWidth;
+      gsap.to(row, {
+        x: () => -distance(),
+        ease: "none",
+        scrollTrigger: {
+          trigger: "#work",
+          start: "top top",
+          end: () => `+=${distance()}`,
+          scrub: 1,
+          pin: true,
+          anticipatePin: 1,
+          invalidateOnRefresh: true,
+        },
+      });
+    });
+    return () => mm.revert();
+  }, []);
 
   return (
-    <section
-      id="work"
-      className="mx-auto max-w-7xl scroll-mt-24 px-5 pt-20 pb-10 sm:px-8"
-    >
-      <p className="text-muted">$ git log --graph projects/</p>
-      <h2 className="mt-2 mb-11 text-[clamp(2.25rem,5.4vw,4.25rem)] leading-none font-extrabold tracking-tighter">
-        Things I&apos;ve <span className="text-violet">built</span>
-      </h2>
-
-      <div ref={graph} className="relative pl-11">
-        <motion.div
-          aria-hidden
-          style={{ scaleY: scrollYProgress }}
-          className="absolute top-2 bottom-2 left-[9px] w-0.5 origin-top bg-linear-to-b from-violet via-pink to-deep"
-        />
-        <div className="flex flex-col gap-12">
+    <section id="work" className="md:h-svh md:overflow-hidden">
+      <div className="mx-auto flex h-full w-[94%] max-w-[1300px] flex-col px-3">
+        <p className="mt-16 mb-3 text-sm tracking-[4px] text-muted uppercase md:mt-24">
+          <span className="text-violet">04</span> / Work
+        </p>
+        <h2 className="mb-8 text-4xl font-medium md:text-[50px] min-[1400px]:text-[70px]">
+          Things I&apos;ve <span className="text-violet">built</span>
+        </h2>
+        <div className="work-row flex flex-col gap-6 md:min-h-0 md:flex-1 md:flex-row md:items-start">
           {projects.map((project, index) => (
-            <motion.article
+            <a
               key={project.name}
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.6 }}
-              className="group relative flex flex-wrap items-center gap-7"
+              href={project.githubURL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`${card} group transition-colors hover:border-violet lg:w-[min(1040px,80vw)] lg:flex-row lg:items-center lg:gap-10`}
             >
-              <span
-                aria-hidden
-                className={`absolute top-2.5 -left-11 size-5 rounded-full ${dotColors[index % dotColors.length]}`}
-              />
-              <div className="relative aspect-[16/10] w-80 max-w-full overflow-hidden rounded-lg border border-line transition-all duration-300 group-hover:border-violet group-hover:shadow-[0_0_40px_rgb(167_139_250/0.3)]">
+              <div className="relative aspect-[16/10] w-full overflow-hidden rounded-lg border border-line md:max-h-[36svh] lg:max-h-[58svh] lg:w-[58%]">
                 <Image
                   src={`/images/${project.image}`}
                   alt={`${project.name} screenshot`}
                   fill
-                  sizes="320px"
+                  sizes="(min-width: 1024px) 600px, 400px"
                   className="object-cover transition-transform duration-500 group-hover:scale-105"
                 />
               </div>
-              <div className="min-w-0 flex-1 basis-80">
-                <p className="text-[13px]">
-                  <span className="text-pink">feat</span>
-                  <span className="text-muted">
-                    ({project.name.toLowerCase()})
+              <div className="lg:flex-1">
+                <p className="text-[13px] text-muted">
+                  <span className="text-violet">0{index + 1}</span> / 0
+                  {projects.length}
+                </p>
+                <h3 className="mt-2 text-2xl font-medium lg:text-4xl">
+                  {project.name}{" "}
+                  <span className="inline-block text-violet transition-transform group-hover:translate-x-1 group-hover:-translate-y-1">
+                    ↗
                   </span>
-                  {index === 0 && (
-                    <span className="text-violet"> (HEAD -&gt; main)</span>
-                  )}
+                </h3>
+                <p className="mt-4 text-[13px] leading-5 font-light text-muted">
+                  {project.description}
                 </p>
-                <h3 className="mt-1 text-3xl font-extrabold">{project.name}</h3>
-                <p className="mt-2 text-sm text-muted">{project.description}</p>
-                <p className="mt-2 text-xs text-violet">
-                  {project.techStack.join(" ").toLowerCase()}
-                </p>
-                <a
-                  href={project.githubURL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mt-2 inline-block py-3 font-bold text-pink transition-colors hover:text-ink"
-                >
-                  $ git checkout →
-                </a>
+                <div className="mt-5 flex flex-wrap gap-1.5">
+                  {project.techStack.map((tech) => (
+                    <span
+                      key={tech}
+                      className="rounded-md border border-line bg-bg/60 px-2 py-0.5 text-xs"
+                    >
+                      {tech}
+                    </span>
+                  ))}
+                </div>
               </div>
-            </motion.article>
+            </a>
           ))}
+          <div
+            className={`${card} items-center justify-center border-dashed bg-transparent py-12 text-center md:w-[360px] md:self-stretch`}
+          >
+            <h3 className="text-2xl font-medium">
+              There&apos;s more on GitHub
+            </h3>
+            <a
+              href="https://github.com/tmyridis"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="rounded-full border border-violet px-6 py-3 transition-colors hover:bg-violet hover:text-bg"
+            >
+              Browse the rest →
+            </a>
+          </div>
         </div>
       </div>
     </section>

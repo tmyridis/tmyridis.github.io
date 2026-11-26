@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "lenis/dist/lenis.css";
 
 @theme inline {
   --font-mono: var(--font-jetbrains-mono), ui-monospace, monospace;
@@ -13,38 +14,6 @@
   --color-violet: #a78bfa;
   --color-deep: #7c3aed;
   --color-pink: #ff7ad9;
-
-  --animate-blink: blink 1s steps(1) infinite;
-  --animate-pulse-glow: pulse-glow 3s ease-in-out infinite;
-  --animate-ping-dot: ping-dot 2s ease-in-out infinite;
-
-  @keyframes blink {
-    50% {
-      opacity: 0;
-    }
-  }
-  @keyframes pulse-glow {
-    0%,
-    100% {
-      text-shadow: 0 0 18px rgb(167 139 250 / 0.5);
-    }
-    50% {
-      text-shadow: 0 0 48px rgb(167 139 250 / 1);
-    }
-  }
-  @keyframes ping-dot {
-    0%,
-    100% {
-      box-shadow: 0 0 0 0 rgb(255 122 217 / 0.7);
-    }
-    50% {
-      box-shadow: 0 0 0 12px rgb(255 122 217 / 0);
-    }
-  }
-}
-
-html {
-  scroll-behavior: smooth;
 }
 
 body {
@@ -52,13 +21,54 @@ body {
   color: var(--color-ink);
 }
 
-@media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
+/* The "What I do" panel (what-i-do.tsx) is shown by switching display from
+   none to flex, which restarts this animation each time. */
+.what-cards {
+  animation: what-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+@keyframes what-in {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
   }
-  .animate-blink,
-  .animate-pulse-glow,
-  .animate-ping-dot {
+}
+/* The bar on the active tab times the switch to the next one. It waits while
+   the panel is hovered or focused, so nothing changes under the reader. */
+.what-timer {
+  animation: what-timer 5s linear both;
+}
+.what-cards:hover .what-timer,
+.what-cards:focus-within .what-timer {
+  animation-play-state: paused;
+}
+@keyframes what-timer {
+  from {
+    transform: scaleX(0);
+  }
+}
+
+/* The dot at the end of the career line flickers like a spark. */
+.career-dot {
+  box-shadow:
+    0 0 5px 2px #d29bff,
+    0 0 15px 8px #d097ff,
+    0 0 110px 20px #f2c0ff;
+  animation: spark 0.8s linear infinite;
+}
+@keyframes spark {
+  10%,
+  20%,
+  50%,
+  70%,
+  90% {
+    box-shadow: 0 0 5px 2px #d29bff;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .what-cards,
+  .what-timer,
+  .career-dot {
     animation: none;
   }
 }
